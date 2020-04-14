@@ -87,9 +87,8 @@ const SkullKing = {
         play: {
             moves: {
                 chooseCard(G, ctx, card) {
-                    console.log(ctx.currentPlayer);
                     G.board.push(G.hand[ctx.currentPlayer][card]);
-                    //G.hand[ctx.currentPlayer] = G.hand[ctx.currentPlayer].splice(card, 1);
+                    G.hand[ctx.currentPlayer].splice(card, 1);
                 }
             }
         },

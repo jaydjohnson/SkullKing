@@ -19,9 +19,10 @@ class SkullKingBoard extends React.Component {
         let playedCards = [];
         let cards = [];
 
-        for (let i = 0; i < this.props.G.board; i++) {
+        for (let i = 0; i < this.props.G.board.length; i++) {
             playedCards.push(
                 <div
+                    key={i}
                     className='card'
                 >
                     {this.props.G.board[i]}
@@ -32,8 +33,9 @@ class SkullKingBoard extends React.Component {
         for (let i = 0; i < this.props.G.round; i++) {
             cards.push(
                 <div 
+                    key={i}
                     className='card'
-                    onClick={()=>this.onClick(i) }
+                    onClick={() => this.onClick(i)}
                 >
                     {this.props.G.hand[this.props.playerID][i]}
                 </div>
