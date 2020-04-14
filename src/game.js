@@ -1,60 +1,104 @@
-// Return true if `cells` is in a winning configuration.
-function IsVictory(cells) {
-    const positions = [
-        [0, 1, 2],
-        [3, 4, 5],
-        [6, 7, 8],
-        [0, 3, 6],
-        [1, 4, 7],
-        [2, 5, 8],
-        [0, 4, 8],
-        [2, 4, 6]
+function SkullKingDeck() {
+    return [
+        '1-Yellow',
+        '2-Yellow',
+        '3-Yellow',
+        '4-Yellow',
+        '5-Yellow',
+        '6-Yellow',
+        '7-Yellow',
+        '8-Yellow',
+        '9-Yellow',
+        '10-Yellow',
+        '11-Yellow',
+        '12-Yellow',
+        '13-Yellow',
+        '14-Yellow',
+        '1-Blue',
+        '2-Blue',
+        '3-Blue',
+        '4-Blue',
+        '5-Blue',
+        '6-Blue',
+        '7-Blue',
+        '8-Blue',
+        '9-Blue',
+        '10-Blue',
+        '11-Blue',
+        '12-Blue',
+        '13-Blue',
+        '14-Blue',
     ];
-
-    const isRowComplete = row => {
-        const symbols = row.map(i => cells[i]);
-        return symbols.every(i => i !== null && i === symbols[0]);
-    };
-
-    return positions.map(isRowComplete).some(i => i === true);
 }
 
-// Return true if all `cells` are occupied.
-function IsDraw(cells) {
-    return cells.filter(c => c === null).length == 0;
+function ResetHands(ctx) {
+    return Array(ctx.numPlayers).fill(null).map(x =>( Array(0) ));
 }
 
-const TicTacToe = {
-    setup: () => ({ cells: Array(9).fill(null) }),
+function DrawCard(G, ctx, player) {
+    G.hand[player].push(G.cards.shift())
+}
 
-    moves: {
-        clickCell: (G, ctx, id) => {
-            if (G.cells[id] === null) {
-                G.cells[id] = ctx.currentPlayer;
+const SkullKing = {
+    name: 'Skull-King',
+
+    setup: (ctx) => ({ 
+        round: 3,
+        cards: SkullKingDeck(),
+        hand: ResetHands(ctx),
+        board: [],
+    }),
+
+    turn: { moveLimit: 1 },
+
+    phases: {
+        deal: {
+            start: true,
+            
+            onBegin: (G, ctx) => {
+                G.hand = ResetHands(ctx);
+                G.cards = ctx.random.Shuffle(G.cards);
+                G.board = [];
+
+                for (let r = 0; r < G.round; r++) {
+                    for (let i = 0; i < ctx.numPlayers; i++) {
+                        DrawCard(G, ctx, i);
+                    }
+                }
+
+                ctx.events.endPhase();
+            },
+
+            next: 'play',
+        },
+
+        bid: {
+            onBegin: (G, ctx) => {
+                
+            },
+
+            moves: {
+                selectBidAmount: (G, ctx, id) => {
+
+                }
             }
         },
+
+        play: {
+            moves: {
+                chooseCard(G, ctx, card) {
+                    console.log(ctx.currentPlayer);
+                    G.board.push(G.hand[ctx.currentPlayer][card]);
+                    //G.hand[ctx.currentPlayer] = G.hand[ctx.currentPlayer].splice(card, 1);
+                }
+            }
+        },
+
     },
 
     endIf: (G, ctx) => {
-        if (IsVictory(G.cells)) {
-            return { winner: ctx.currentPlayer };
-        }
-        if (IsDraw(G.cells)) {
-            return { draw: true };
-        }
-    },
 
-    ai: {
-        enumerate: (G, ctx) => {
-            let moves = [];
-            for (let i = 0; i < 9; i++) {
-                if (G.cells[i] === null) {
-                    moves.push({ move: 'clickCell', args: [i] });
-                }
-            }
-            return moves;
-        },
     },
 };
 
-export default TicTacToe;
+export default SkullKing;
