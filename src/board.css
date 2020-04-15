@@ -1,0 +1,29 @@
+
+#bid-window {
+    padding: 20px;
+    text-align: center;
+}
+
+.bid-list {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.bidNumber {
+    margin: 5px;
+    padding: 20px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 25px;
+    width: 25px;
+    height: 25px;
+    line-height: 25px;
+    border: 3px solid #aaa;
+    background: #fff;
+}
+
+.bidNumber:hover {
+    cursor: pointer;
+    background: lightskyblue;
+}

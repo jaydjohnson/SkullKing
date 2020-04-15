@@ -43,7 +43,7 @@ const SkullKing = {
     name: 'Skull-King',
 
     setup: (ctx) => ({ 
-        round: 3,
+        round: 10,
         cards: SkullKingDeck(),
         hand: ResetHands(ctx),
         board: [],
@@ -66,6 +66,7 @@ const SkullKing = {
                     }
                 }
 
+                G.bidding = true;
                 ctx.events.endPhase();
             },
 
@@ -89,6 +90,10 @@ const SkullKing = {
                 chooseCard(G, ctx, card) {
                     G.board.push(G.hand[ctx.currentPlayer][card]);
                     G.hand[ctx.currentPlayer].splice(card, 1);
+                },
+
+                selectBid(G, ctx, bid) {
+                    console.log('seleceted', bid);
                 }
             }
         },

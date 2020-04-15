@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import './board.css';
 
 class SkullKingBoard extends React.Component {
     static propTypes = {
@@ -15,9 +16,14 @@ class SkullKingBoard extends React.Component {
         this.props.moves.chooseCard(card);
     }
 
+    selectBid = bid => {
+        this.props.moves.selectBid(bid);
+    }
+
     render() {
         let playedCards = [];
         let cards = [];
+        let bidNumbers = [];
 
         for (let i = 0; i < this.props.G.board.length; i++) {
             playedCards.push(
@@ -39,16 +45,33 @@ class SkullKingBoard extends React.Component {
                 >
                     {this.props.G.hand[this.props.playerID][i]}
                 </div>
-            )
+            );
         }
 
+        for (let i = 0; i <= this.props.G.round; i++) {
+            bidNumbers.push(
+                <div
+                    key={i}
+                    className='bidNumber ' 
+                    onClick={() => this.selectBid(i)}
+                >
+                    {i}
+                </div>
+            );
+        }
+
+        let bidList = '';
+        if (this.props.G.bidding) {
+            bidList = ( <div id="bid-window"><h3>Select your bid</h3><div className="bid-list">{bidNumbers}</div><button>Yo Ho Ho!</button></div> )
+        }
 
         return (
             <div>
                 <div id="board">
                     <h2>Played Cards</h2>
                     {playedCards}
-                </div>
+                </div> 
+                {bidList}
                 <div id="hand">
                     <h3>Your cards</h3>
                     {cards}
