@@ -21,6 +21,10 @@ class SkullKingBoard extends React.Component {
         this.props.moves.selectBid(bid);
     }
 
+    handleBidClick = (bid, player) => {
+        this.props.moves.selectBidAmount(bid);
+    }
+
     render() {
         let playedCards = [];
         let cards = [];
@@ -62,7 +66,11 @@ class SkullKingBoard extends React.Component {
                 <div id="board">
                     {playedCardsList}
                 </div> 
-                <BidWindow round={this.props.G.round} />
+                <BidWindow
+                    round={this.props.G.round}
+                    player={this.props.playerID} 
+                    onClick={this.handleBidClick}
+                />
                 {playerCardList}
             </div>
         );

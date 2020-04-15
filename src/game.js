@@ -51,7 +51,19 @@ const SkullKing = {
         board: [],
     }),
 
-    turn: { moveLimit: 1 },
+    turn: { 
+        moveLimit: 1,
+
+        stages: {
+            bid: {
+                moves: {
+                    selectBidAmount: (G, ctx, bid) => {
+                        G.players[ctx.currentPlayer].currentBid = bid;
+                    }
+                }
+            },
+        },
+    },
 
     phases: {
         start: {
@@ -66,7 +78,7 @@ const SkullKing = {
                     };
                 }
 
-                ctx.events.endPhase();
+                ctx.events.endStage();
             },
 
             next: 'deal',
@@ -81,6 +93,7 @@ const SkullKing = {
                         hand: [],
                         score: 0,
                         name: 'Bob-' + i,
+                        currentBid: null,
                     };
                 }
 
@@ -98,17 +111,22 @@ const SkullKing = {
                 ctx.events.endPhase();
             },
 
-            next: 'play',
+            next: 'bid',
         },
 
         bid: {
             onBegin: (G, ctx) => {
-                
+                ctx.events.SetActivePlayers({
+                    all: 'bid',
+                    moveLimit: 1,
+                    revert: true,
+                    next: 'play',
+                });
             },
 
             moves: {
-                selectBidAmount: (G, ctx, id) => {
-
+                selectBidAmount: (G, ctx, bid) => {
+                    G.players[ctx.currentPlayer].currentBid = bid;
                 }
             }
         },
