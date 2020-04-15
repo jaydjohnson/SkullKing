@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './board.css';
+import BidWindow from './bidWindow.js';
 
 class SkullKingBoard extends React.Component {
     static propTypes = {
@@ -23,7 +24,6 @@ class SkullKingBoard extends React.Component {
     render() {
         let playedCards = [];
         let cards = [];
-        let bidNumbers = [];
 
         for (let i = 0; i < this.props.G.board.length; i++) {
             playedCards.push(
@@ -36,7 +36,9 @@ class SkullKingBoard extends React.Component {
             )
         }
 
-        for (let i = 0; i < this.props.G.round; i++) {
+        let playedCardsList = (<div id="playedCards"><h3>Played Cards:</h3><div className="playedCards-list">{playedCards}</div></div>);
+
+        for (let i = 0; i < this.props.G.hand[this.props.playerID].length; i++) {
             cards.push(
                 <div 
                     key={i}
@@ -48,34 +50,15 @@ class SkullKingBoard extends React.Component {
             );
         }
 
-        for (let i = 0; i <= this.props.G.round; i++) {
-            bidNumbers.push(
-                <div
-                    key={i}
-                    className='bidNumber ' 
-                    onClick={() => this.selectBid(i)}
-                >
-                    {i}
-                </div>
-            );
-        }
-
-        let bidList = '';
-        if (this.props.G.bidding) {
-            bidList = ( <div id="bid-window"><h3>Select your bid</h3><div className="bid-list">{bidNumbers}</div><button>Yo Ho Ho!</button></div> )
-        }
+        let playerCardList = (<div id="playerCards"><h3>Your Cards:</h3><div className="playerCards-list">{cards}</div></div>);
 
         return (
             <div>
                 <div id="board">
-                    <h2>Played Cards</h2>
-                    {playedCards}
+                    {playedCardsList}
                 </div> 
-                {bidList}
-                <div id="hand">
-                    <h3>Your cards</h3>
-                    {cards}
-                </div>
+                <BidWindow round={this.props.G.round} />
+                {playerCardList}
             </div>
         );
     }

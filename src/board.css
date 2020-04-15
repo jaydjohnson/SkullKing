@@ -1,3 +1,38 @@
+#playedCards {
+    padding: 20px;
+    text-align: center;
+}
+
+.playedCards-list {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+#playerCards {
+    padding: 20px;
+    text-align: center;
+}
+
+.playerCards-list {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.card {
+    margin: 5px;
+    padding: 5px;
+    font-size: 12px;
+    width: 75px;
+    height: 100px;
+    border: 3px solid #aaa;
+    background: #fff;
+}
+
+.playerCards-list .card:hover {
+    transform: scale(1.2);
+}
 
 #bid-window {
     padding: 20px;
@@ -23,7 +58,11 @@
     background: #fff;
 }
 
+.bidNumber.selected {
+    background: lightgreen;
+}
+
 .bidNumber:hover {
     cursor: pointer;
-    background: lightskyblue;
+    background: rgb(48, 235, 63);
 }
