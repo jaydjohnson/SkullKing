@@ -31,32 +31,60 @@ function SkullKingDeck() {
     ];
 }
 
-function ResetHands(ctx) {
-    return Array(ctx.numPlayers).fill(null).map(x =>( Array(0) ));
+function ResetHands(G, ctx) {
+    for (let i = 0; i < ctx.numPlayers; i++) {
+        G.players[i].hand = [];
+    }
 }
 
 function DrawCard(G, ctx, player) {
-    G.hand[player].push(G.cards.shift())
+    G.players[player].hand.push(G.cards.shift())
 }
 
 const SkullKing = {
     name: 'Skull-King',
 
-    setup: (ctx) => ({ 
+    setup: () => ({ 
         round: 10,
         cards: SkullKingDeck(),
-        hand: ResetHands(ctx),
+        players: [],
         board: [],
     }),
 
     turn: { moveLimit: 1 },
 
     phases: {
+        start: {
+
+
+            onBegin: (G, ctx) => {
+                for (let i = 0; i < ctx.numPlayers; i++) {
+                    G.players[i] = {
+                        hand: [],
+                        score: 0,
+                        name: 'Bob-' + i,
+                    };
+                }
+
+                ctx.events.endPhase();
+            },
+
+            next: 'deal',
+        },
+
         deal: {
             start: true,
-            
+
             onBegin: (G, ctx) => {
-                G.hand = ResetHands(ctx);
+                for (let i = 0; i < ctx.numPlayers; i++) {
+                    G.players[i] = {
+                        hand: [],
+                        score: 0,
+                        name: 'Bob-' + i,
+                    };
+                }
+
+                ResetHands(G, ctx);
                 G.cards = ctx.random.Shuffle(G.cards);
                 G.board = [];
 
@@ -88,8 +116,8 @@ const SkullKing = {
         play: {
             moves: {
                 chooseCard(G, ctx, card) {
-                    G.board.push(G.hand[ctx.currentPlayer][card]);
-                    G.hand[ctx.currentPlayer].splice(card, 1);
+                    G.board.push({card: G.players[ctx.currentPlayer].hand[card], player: G.players[ctx.currentPlayer].name});
+                    G.players[ctx.currentPlayer].hand.splice(card, 1);
                 },
 
                 selectBid(G, ctx, bid) {

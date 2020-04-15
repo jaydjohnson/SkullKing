@@ -27,25 +27,30 @@ class SkullKingBoard extends React.Component {
 
         for (let i = 0; i < this.props.G.board.length; i++) {
             playedCards.push(
-                <div
-                    key={i}
-                    className='card'
-                >
-                    {this.props.G.board[i]}
+                <div>
+                    <div
+                        key={i}
+                        className='card'
+                    >
+                        {this.props.G.board[i].card}
+                    </div>
+                    <div>
+                        {this.props.G.board[i].player}
+                    </div>
                 </div>
             )
         }
 
         let playedCardsList = (<div id="playedCards"><h3>Played Cards:</h3><div className="playedCards-list">{playedCards}</div></div>);
 
-        for (let i = 0; i < this.props.G.hand[this.props.playerID].length; i++) {
+        for (let i = 0; i < this.props.G.players[this.props.playerID].hand.length; i++) {
             cards.push(
                 <div 
                     key={i}
                     className='card'
                     onClick={() => this.onClick(i)}
                 >
-                    {this.props.G.hand[this.props.playerID][i]}
+                    {this.props.G.players[this.props.playerID].hand[i]}
                 </div>
             );
         }
