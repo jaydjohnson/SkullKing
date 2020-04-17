@@ -31,12 +31,11 @@ class SkullKingBoard extends React.Component {
 
         for (let i = 0; i < this.props.G.board.length; i++) {
             playedCards.push(
-                <div>
+                <div key={'card'+i}>
                     <div
-                        key={i}
                         className='card'
                     >
-                        {this.props.G.board[i].card}
+                        {this.props.G.board[i].card.value + ' ' + this.props.G.board[i].card.color}
                     </div>
                     <div>
                         {this.props.G.board[i].player}
@@ -54,7 +53,7 @@ class SkullKingBoard extends React.Component {
                     className='card'
                     onClick={() => this.onClick(i)}
                 >
-                    {this.props.G.players[this.props.playerID].hand[i]}
+                    {this.props.G.players[this.props.playerID].hand[i].value + ' ' + this.props.G.players[this.props.playerID].hand[i].color}
                 </div>
             );
         }
@@ -69,8 +68,43 @@ class SkullKingBoard extends React.Component {
             />);
         }
 
+        let playerList = [];
+        for (let i = 0; i < this.props.G.players.length; i++) {
+            console.log(this.props.ctx.playOrderPos, i);
+            playerList.push(
+                <tr 
+                    key={i}
+                    className={'player ' + this.props.ctx.playOrderPos === i ? 'active' : ''}
+                    //className='player'
+                >
+                    <td>{this.props.G.players[i].name}</td>
+                    <td>{this.props.G.players[i].score}</td>
+                    <td>{this.props.G.bidding ? (this.props.G.players[i].currentBid === null ? '??' : '✓') : this.props.G.players[i].currentBid}</td>
+                    <td>{this.props.G.bidding ? '0' : this.props.G.players[i].tricks}</td>
+                </tr>
+            );
+        }
+
         return (
             <div>
+                <div id="playerList">
+                    <table>
+                        <thead>
+                            <tr>
+                                <td>Current Round: {this.props.G.round}</td>
+                            </tr>
+                            <tr>
+                                <td>Players</td>
+                                <td>Score</td>
+                                <td>Bid</td>
+                                <td>Tricks</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {playerList}
+                        </tbody>
+                    </table>
+                </div>
                 <div id="board">
                     {playedCardsList}
                 </div> 

@@ -1,37 +1,5 @@
 import { TurnOrder } from "boardgame.io/core";
-
-function SkullKingDeck() {
-    return [
-        '1-Yellow',
-        '2-Yellow',
-        '3-Yellow',
-        '4-Yellow',
-        '5-Yellow',
-        '6-Yellow',
-        '7-Yellow',
-        '8-Yellow',
-        '9-Yellow',
-        '10-Yellow',
-        '11-Yellow',
-        '12-Yellow',
-        '13-Yellow',
-        '14-Yellow',
-        '1-Blue',
-        '2-Blue',
-        '3-Blue',
-        '4-Blue',
-        '5-Blue',
-        '6-Blue',
-        '7-Blue',
-        '8-Blue',
-        '9-Blue',
-        '10-Blue',
-        '11-Blue',
-        '12-Blue',
-        '13-Blue',
-        '14-Blue',
-    ];
-}
+import * as skCards from "./cardDeck";
 
 function ResetHands(G, ctx) {
     for (let i = 0; i < ctx.numPlayers; i++) {
@@ -40,32 +8,13 @@ function ResetHands(G, ctx) {
     }
 }
 
-function DrawCard(G, ctx, player) {
-    G.players[player].hand.push(G.cards.shift())
+function DrawCard(G, ctx, player, deck) {
+    G.players[player].hand.push(deck.shift())
 }
 
-function getRndInteger(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-function Shuffle(array) {
-    let currentIndex = array.length, temporaryValue, randomIndex;
-
-    // While there remain elements to shuffle...
-    while (0 !== currentIndex) {
-  
-      // Pick a remaining element...
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex -= 1;
-  
-      // And swap it with the current element.
-      temporaryValue = array[currentIndex];
-      array[currentIndex] = array[randomIndex];
-      array[randomIndex] = temporaryValue;
-    }
-  
-    return array;
-}
+// function getRndInteger(min, max) {
+//     return Math.floor(Math.random() * (max - min + 1)) + min;
+// }
 
 const SkullKing = {
     name: 'Skull-King',
@@ -73,10 +22,10 @@ const SkullKing = {
     setup: (ctx) => ({ 
         round: 0,
         roundHand: 0,
-        cards: SkullKingDeck(),
-        players: [],
-        board: [],
+        bidding: false,
         startingPlayer: ctx.random.Die(ctx.numPlayers)-1,
+        board: [],
+        players: [],
     }),
 
     turn: { 
@@ -113,8 +62,9 @@ const SkullKing = {
                     G.players[i] = {
                         hand: [],
                         score: 0,
-                        name: 'Bob-' + i,
+                        playerIndex: i,
                         currentBid: null,
+                        name: 'Bob-' + (i+1),
                     };
                 }
 
@@ -131,14 +81,13 @@ const SkullKing = {
                 console.log('dealing cards');
 
                 ResetHands(G, ctx);
-                G.cards = Shuffle(G.cards);
+                let deck = skCards.ShuffledSkullKingDeck();
                 G.board = [];
                 G.round++;
                 G.roundHand = 0;
-
                 for (let r = 0; r < G.round; r++) {
                     for (let i = 0; i < ctx.numPlayers; i++) {
-                        DrawCard(G, ctx, i);
+                        DrawCard(G, ctx, i, deck);
                     }
                 }
 
@@ -190,8 +139,9 @@ const SkullKing = {
             onEnd: (G, ctx) => {
                 // Pass to winner of last hand
                 console.log('Taking Trick', ctx.numPlayers);
-                G.startingPlayer = getRndInteger(0, ctx.numPlayers-1);
-                console.log('player ', G.startingPlayer, ' won');
+                let winner = skCards.getWinner(G.board);
+                G.startingPlayer = winner;
+                console.log('player ', winner, ' won');
             },
 
             endIf: (G, ctx) => {
