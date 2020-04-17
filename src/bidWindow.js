@@ -14,7 +14,9 @@ class BidWindow extends React.Component {
 
     confirmBid() {
         console.log(this.state.selectedBid);
-        this.props.onClick(this.state.selectedBid, parseInt(this.props.player));
+        if (this.state.selectedBid !== null) {
+            this.props.onClick(this.state.selectedBid, parseInt(this.props.player));
+        }
     }
 
     render() {

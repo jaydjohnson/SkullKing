@@ -9,12 +9,15 @@ const SkullKingClient = Client({
     game: SkullKing,
     board: SkullKingBoard,
     multiplayer: Local(),
+    numPlayers: 4,
 });
 
 const App = () => (
     <div>
         <SkullKingClient playerID="0" />
         <SkullKingClient playerID="1" />
+        <SkullKingClient playerID="2" />
+        <SkullKingClient playerID="3" />
     </div>
 );
 

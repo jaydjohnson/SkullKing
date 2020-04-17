@@ -59,18 +59,22 @@ class SkullKingBoard extends React.Component {
             );
         }
 
-        let playerCardList = (<div id="playerCards"><h3>Your Cards:</h3><div className="playerCards-list">{cards}</div></div>);
+        let playerCardList = (<div id="playerCards" className={this.props.isActive && ! this.props.G.bidding ? 'active-turn' : ''}><h3>Your Cards:</h3><div className="playerCards-list">{cards}</div></div>);
+        let bidWindow = '';
+        if (this.props.G.bidding) {
+            bidWindow = (<BidWindow
+                round={this.props.G.round}
+                player={this.props.playerID} 
+                onClick={this.handleBidClick}
+            />);
+        }
 
         return (
             <div>
                 <div id="board">
                     {playedCardsList}
                 </div> 
-                <BidWindow
-                    round={this.props.G.round}
-                    player={this.props.playerID} 
-                    onClick={this.handleBidClick}
-                />
+                {bidWindow}
                 {playerCardList}
             </div>
         );
