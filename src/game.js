@@ -1,5 +1,6 @@
 import { TurnOrder } from "boardgame.io/core";
 import * as skCards from "./cardDeck";
+import * as scores from "./scoring";
 
 function ResetHands(G, ctx) {
     for (let i = 0; i < ctx.numPlayers; i++) {
@@ -46,7 +47,7 @@ const SkullKing = {
 
     moves: {
         chooseCard(G, ctx, card) {
-            G.board.push({card: G.players[ctx.currentPlayer].hand[card], player: G.players[ctx.currentPlayer].name});
+            G.board.push({card: G.players[ctx.currentPlayer].hand[card], player: G.players[ctx.currentPlayer].playerIndex});
             G.players[ctx.currentPlayer].hand.splice(card, 1);
         },
     },
@@ -62,6 +63,8 @@ const SkullKing = {
                     G.players[i] = {
                         hand: [],
                         score: 0,
+                        potentialScore: 0,
+                        tricks: 0,
                         playerIndex: i,
                         currentBid: null,
                         name: 'Bob-' + (i+1),
@@ -138,15 +141,28 @@ const SkullKing = {
 
             onEnd: (G, ctx) => {
                 // Pass to winner of last hand
-                console.log('Taking Trick', ctx.numPlayers);
-                let winner = skCards.getWinner(G.board);
-                G.startingPlayer = winner;
-                console.log('player ', winner, ' won');
+                console.log('Ending Hand');
+                if (G.board.length) {
+                    let winnerIndex = skCards.getWinner(G.board);
+                    let winner = G.board[winnerIndex].player;
+                    G.startingPlayer = winner;
+                    G.players[winner].tricks++;
+                    for (let i = 0; i < ctx.numPlayers; i++ ) {
+                        G.players[i].potentialScore += scores.getPotentialScores(G.players[i], G.board);
+                    }
+                    console.log('player ', G.players[winner].name, ' won');
+
+                    if ( G.roundHand > G.round) {
+                        console.log('Ending Round');
+                        // Score 
+                        G.players = scores.getHandScores(G.players);
+                    }
+                }
             },
 
             endIf: (G, ctx) => {
                 if ( G.roundHand > G.round) {
-                    console.log('Ending Play');
+                    console.log('Ending Round');
                     ctx.events.setPhase('deal');
                 }
             },
@@ -160,7 +176,8 @@ const SkullKing = {
                     first: (G, ctx) => G.startingPlayer,
                     next: (G, ctx) => {
                         if (parseInt(ctx.currentPlayer) === (G.startingPlayer + ctx.numPlayers - 1) % ctx.numPlayers) {
-                            return undefined;
+                            ctx.events.endPhase()
+                            //return undefined;
                         }
                         return (ctx.playOrderPos + 1) % ctx.numPlayers;
                     },

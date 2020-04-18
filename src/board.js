@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './board.css';
 import BidWindow from './bidWindow.js';
+import PlayerWindow from './playerWindow';
 
 class SkullKingBoard extends React.Component {
     static propTypes = {
@@ -68,43 +69,18 @@ class SkullKingBoard extends React.Component {
             />);
         }
 
-        let playerList = [];
-        for (let i = 0; i < this.props.G.players.length; i++) {
-            console.log(this.props.ctx.playOrderPos, i);
-            playerList.push(
-                <tr 
-                    key={i}
-                    className={'player ' + this.props.ctx.playOrderPos === i ? 'active' : ''}
-                    //className='player'
-                >
-                    <td>{this.props.G.players[i].name}</td>
-                    <td>{this.props.G.players[i].score}</td>
-                    <td>{this.props.G.bidding ? (this.props.G.players[i].currentBid === null ? '??' : '✓') : this.props.G.players[i].currentBid}</td>
-                    <td>{this.props.G.bidding ? '0' : this.props.G.players[i].tricks}</td>
-                </tr>
-            );
-        }
+        let playerWindow = (
+            <PlayerWindow
+                players={this.props.G.players}
+                bidding={this.props.G.bidding}
+                currentPlayer={this.props.G.startingPlayer}
+                currentRound={this.props.G.currentRound}
+            />
+        );
 
         return (
             <div>
-                <div id="playerList">
-                    <table>
-                        <thead>
-                            <tr>
-                                <td>Current Round: {this.props.G.round}</td>
-                            </tr>
-                            <tr>
-                                <td>Players</td>
-                                <td>Score</td>
-                                <td>Bid</td>
-                                <td>Tricks</td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        {playerList}
-                        </tbody>
-                    </table>
-                </div>
+                {playerWindow}
                 <div id="board">
                     {playedCardsList}
                 </div> 

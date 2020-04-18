@@ -5,6 +5,7 @@ class BidWindow extends React.Component {
         super(props);
         this.state = {
             selectedBid: null,
+            confirmedBid: false,
         }
     }
 
@@ -15,6 +16,7 @@ class BidWindow extends React.Component {
     confirmBid() {
         console.log(this.state.selectedBid);
         if (this.state.selectedBid !== null) {
+            this.setState({confirmedBid: true});
             this.props.onClick(this.state.selectedBid, parseInt(this.props.player));
         }
     }
@@ -32,6 +34,13 @@ class BidWindow extends React.Component {
                     {i}
                 </div>
             );
+        }
+
+        if (this.state.confirmedBid) {
+            bidNumbers = (
+                <h3>Waiting for other players...You bid {this.state.selectedBid}</h3>
+                
+            )
         }
 
         return (
