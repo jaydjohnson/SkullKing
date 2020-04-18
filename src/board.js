@@ -73,7 +73,8 @@ class SkullKingBoard extends React.Component {
             <PlayerWindow
                 players={this.props.G.players}
                 bidding={this.props.G.bidding}
-                currentPlayer={this.props.G.startingPlayer}
+                activePlayer={this.props.ctx.currentPlayer}
+                nextPlayer={this.props.G.startingRoundPlayer}
                 currentRound={this.props.G.currentRound}
             />
         );

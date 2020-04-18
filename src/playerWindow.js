@@ -12,13 +12,13 @@ class PlayerWindow extends React.Component {
 
         let playerList = [];
         for (let i = 0; i < this.props.players.length; i++) {
-            let activePlayer = this.props.currentPlayer === i ? '*' : '';
+            let nextPlayer = this.props.nextPlayer === i ? '*' : '';
             playerList.push(
                 <tr 
                     key={i}
-                    className={'player ' + ( this.props.currentPlayer === i && ! this.props.bidding ? 'active' : '' )}
+                    className={'player ' + ( parseInt(this.props.activePlayer) === i && ! this.props.bidding ? 'active' : '' )}
                 >
-                    <td>{this.props.players[i].name}{activePlayer}</td>
+                    <td>{this.props.players[i].name}{nextPlayer}</td>
                     <td>{this.props.players[i].score} ({this.props.players[i].potentialScore})</td>
                     <td>{this.props.bidding ? (this.props.players[i].currentBid === null ? '??' : '✓') : this.props.players[i].currentBid}</td>
                     <td>{this.props.players[i].tricks}</td>

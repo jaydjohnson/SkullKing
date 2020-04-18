@@ -13,7 +13,7 @@ export function getPotentialScores(player, playerIndex, cards) {
 
 function scoreCaptures(playerIndex, cards) {
     let bonus = 0;
-    for (let i = 0; cards[i].playerIndex !== playerIndex; i++) {
+    for (let i = 0; cards[i].player !== playerIndex; i++) {
         if (cards[i].card.value === 14 && cards[i].card.color !== 'black') {
             bonus += 10
         }
@@ -37,15 +37,9 @@ export function getActualRoundScore(player, round) {
     }
 }
 
-export function getHandScores(players) {
+export function getRoundScores(players, round) {
     for (let i = 0; i < players.length; i++) {
-        if (players[i].currentBid === players[i].tricks) {
-            console.log(players[i].potentialScore);
-            players[i].score += players[i].potentialScore;
-        }
-
-        players[i].potentialScore = 0;
-
+        players[i].score += getActualRoundScore(players[i], round);
     }
 
     return players;

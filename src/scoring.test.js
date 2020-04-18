@@ -9,10 +9,10 @@ const G = {
 it('Check Potential Score: Bid 1 and Bid 0', () => {
     // Set up delt cards
     G.board =  [ 
-            { card: { value: 10, color: 'yellow' }, playerIndex: 0, name: 'Player 1' },
-            { card: { value: 3, color: 'yellow' }, playerIndex: 1, name: 'Player 2' },
-            { card: { value: 1, color: 'yellow' }, playerIndex: 2, name: 'Player 3' },
-            { card: { value: 6, color: 'yellow' }, playerIndex: 3, name: 'Player 4' },
+            { card: { value: 10, color: 'yellow' }, player: 0, name: 'Player 1' },
+            { card: { value: 3, color: 'yellow' }, player: 1, name: 'Player 2' },
+            { card: { value: 1, color: 'yellow' }, player: 2, name: 'Player 3' },
+            { card: { value: 6, color: 'yellow' }, player: 3, name: 'Player 4' },
         ];
     G.players = [
         { currentBid: 1, tricks: 1, score: 0, potentialScore: 0 },
@@ -30,10 +30,10 @@ it('Check Potential Score: Bid 1 and Bid 0', () => {
 it('Check Potential Score: Capture 14', () => {
     // Set up delt cards
     G.board =  [ 
-            { card: { value: 14, color: 'yellow' }, playerIndex: 0, name: 'Player 1' },
-            { card: { value: 3, color: 'yellow' }, playerIndex: 1, name: 'Player 2' },
-            { card: { value: 4, color: 'black' }, playerIndex: 2, name: 'Player 3' },
-            { card: { value: 14, color: 'green' }, playerIndex: 3, name: 'Player 4' },
+            { card: { value: 14, color: 'yellow' }, player: 0, name: 'Player 1' },
+            { card: { value: 3, color: 'yellow' }, player: 1, name: 'Player 2' },
+            { card: { value: 4, color: 'black' }, player: 2, name: 'Player 3' },
+            { card: { value: 14, color: 'green' }, player: 3, name: 'Player 4' },
         ];
     G.players = [
         { currentBid: 1, tricks: 1, score: 0, potentialScore: 0 },
@@ -49,10 +49,10 @@ it('Check Potential Score: Capture 14', () => {
 it('Check Potential Score: Capture Jolly Rodger 14', () => {
     // Set up delt cards
     G.board =  [ 
-            { card: { value: 13, color: 'yellow' }, playerIndex: 0, name: 'Player 1' },
-            { card: { value: 14, color: 'black' }, playerIndex: 1, name: 'Player 2' },
-            { card: { value: 20, color: 'red' }, playerIndex: 2, name: 'Player 3' },
-            { card: { value: 14, color: 'green' }, playerIndex: 3, name: 'Player 4' },
+            { card: { value: 13, color: 'yellow' }, player: 0, name: 'Player 1' },
+            { card: { value: 14, color: 'black' }, player: 1, name: 'Player 2' },
+            { card: { value: 20, color: 'red' }, player: 2, name: 'Player 3' },
+            { card: { value: 14, color: 'green' }, player: 3, name: 'Player 4' },
         ];
     G.players = [
         { currentBid: 1, tricks: 1, score: 0, potentialScore: 0 },
@@ -68,10 +68,10 @@ it('Check Potential Score: Capture Jolly Rodger 14', () => {
 it('Check Potential Score: Capture Jolly Rodger 14 and Color 14', () => {
     // Set up delt cards
     G.board =  [ 
-            { card: { value: 14, color: 'yellow' }, playerIndex: 0, name: 'Player 1' },
-            { card: { value: 14, color: 'black' }, playerIndex: 1, name: 'Player 2' },
-            { card: { value: 20, color: 'red' }, playerIndex: 2, name: 'Player 3' },
-            { card: { value: 14, color: 'green' }, playerIndex: 3, name: 'Player 4' },
+            { card: { value: 14, color: 'yellow' }, player: 0, name: 'Player 1' },
+            { card: { value: 14, color: 'black' }, player: 1, name: 'Player 2' },
+            { card: { value: 20, color: 'red' }, player: 2, name: 'Player 3' },
+            { card: { value: 14, color: 'green' }, player: 3, name: 'Player 4' },
         ];
     G.players = [
         { currentBid: 1, tricks: 1, score: 0, potentialScore: 0 },
@@ -87,10 +87,10 @@ it('Check Potential Score: Capture Jolly Rodger 14 and Color 14', () => {
 it('Check Potential Score: Skull King Captures All', () => {
     // Set up delt cards
     G.board =  [ 
-            { card: { value: 14, color: 'yellow' }, playerIndex: 0, name: 'Player 1' },
-            { card: { value: 14, color: 'black' }, playerIndex: 1, name: 'Player 2' },
-            { card: { value: 20, color: 'red' }, playerIndex: 2, name: 'Player 3' },
-            { card: { value: 25, color: 'skullking' }, playerIndex: 3, name: 'Player 4' },
+            { card: { value: 14, color: 'yellow' }, player: 0, name: 'Player 1' },
+            { card: { value: 14, color: 'black' }, player: 1, name: 'Player 2' },
+            { card: { value: 20, color: 'red' }, player: 2, name: 'Player 3' },
+            { card: { value: 25, color: 'skullking' }, player: 3, name: 'Player 4' },
         ];
     G.players = [
         { currentBid: 1, tricks: 1, score: 0, potentialScore: 0 },

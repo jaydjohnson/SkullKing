@@ -90,7 +90,7 @@ function Shuffle(array) {
 }
 
 export function ShuffledSkullKingDeck() {
-    return Shuffle(SkullKingDeck());
+    return Shuffle(Shuffle(Shuffle(SkullKingDeck())));
 }
 
 export function getWinner(cards) {
@@ -100,7 +100,12 @@ export function getWinner(cards) {
     let piratePlayed = false;
     for (let i = 0; i < cards.length; i++ ) {
         card =  cards[i].card;
-        if ((suit === '' && ['yellow', 'green', 'purple', 'black'].includes(card.color)) || (card.color === 'black' && ! piratePlayed)) {
+        if ((suit === '' && ['yellow', 'green', 'purple', 'black', 'red'].includes(card.color))) {
+            suit = card.color;
+            winner = i;
+        }
+
+        if (card.color === 'black' && suit !== 'black' && ! piratePlayed) {
             suit = card.color;
             winner = i;
         }
@@ -110,7 +115,6 @@ export function getWinner(cards) {
         }
 
         if (card.color === 'red' && ! piratePlayed) {
-            suit = 'red';
             piratePlayed = true;
             winner = i;
         }

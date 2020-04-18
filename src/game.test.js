@@ -65,6 +65,18 @@ it('Player 4 Wins: Suit set by 1, Player 2 plays Black, Player 4 beats 2', () =>
     expect(winner).toEqual(3);
 });
 
+it('Player 4 Wins: Suit set by 1, Player 2 plays Black, Player 4 plays black', () => {
+    G.board = [
+        { card: { value: 5, color: 'green' }, player: 'Player 1' },
+        { card: { value: 13, color: 'black' }, player: 'Player 2' },
+        { card: { value: 10, color: 'green' }, player: 'Player 3' },
+        { card: { value: 4, color: 'black' }, player: 'Player 4' },
+    ];
+
+    let winner = skCards.getWinner(G.board);
+    expect(winner).toEqual(1);
+});
+
 it('Player 3 Wins: Suit set by 1, Player 2 plays Black, Player 3 plays Pirate', () => {
     G.board = [
         { card: { value: 5, color: 'green' }, player: 'Player 1' },
