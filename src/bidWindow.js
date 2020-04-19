@@ -42,6 +42,7 @@ class BidWindow extends React.Component {
                 
             )
         }
+        let bidButton = this.state.confirmedBid ? '' : (<button onClick={() => this.confirmBid()}>Yo Ho Ho!</button>);
 
         return (
             <div id="bid-window">
@@ -49,7 +50,7 @@ class BidWindow extends React.Component {
                 <div className="bid-list">
                     {bidNumbers}
                 </div>
-                <button onClick={() => this.confirmBid()}>Yo Ho Ho!</button>
+                {bidButton}
             </div>
         )
     }

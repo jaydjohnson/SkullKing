@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import './board.css';
 import BidWindow from './bidWindow.js';
 import PlayerWindow from './playerWindow';
+import PlayerHandWindow from './playerHandWindow';
 
 class SkullKingBoard extends React.Component {
     static propTypes = {
@@ -14,8 +15,17 @@ class SkullKingBoard extends React.Component {
         isMultiplayer: PropTypes.bool,
     }
 
-    onClick = card => {
-        this.props.moves.chooseCard(card);
+    canPlayCard = (card) => {
+        console.log(this.props.G.players[this.props.playerID].hand[card].color);
+        if (this.props.G.players[this.props.playerID].hand[card].color === 'green') {
+            return true;
+        }
+    }
+
+    selectCard = card => {
+        if (this.canPlayCard(card)) {
+            this.props.moves.chooseCard(card);
+        }
     }
 
     selectBid = bid => {
@@ -28,7 +38,6 @@ class SkullKingBoard extends React.Component {
 
     render() {
         let playedCards = [];
-        let cards = [];
 
         for (let i = 0; i < this.props.G.board.length; i++) {
             playedCards.push(
@@ -47,19 +56,6 @@ class SkullKingBoard extends React.Component {
 
         let playedCardsList = (<div id="playedCards"><h3>Played Cards:</h3><div className="playedCards-list">{playedCards}</div></div>);
 
-        for (let i = 0; i < this.props.G.players[this.props.playerID].hand.length; i++) {
-            cards.push(
-                <div 
-                    key={i}
-                    className='card'
-                    onClick={() => this.onClick(i)}
-                >
-                    {this.props.G.players[this.props.playerID].hand[i].value + ' ' + this.props.G.players[this.props.playerID].hand[i].color}
-                </div>
-            );
-        }
-
-        let playerCardList = (<div id="playerCards" className={this.props.isActive && ! this.props.G.bidding ? 'active-turn' : ''}><h3>Your Cards:</h3><div className="playerCards-list">{cards}</div></div>);
         let bidWindow = '';
         if (this.props.G.bidding) {
             bidWindow = (<BidWindow
@@ -69,6 +65,13 @@ class SkullKingBoard extends React.Component {
             />);
         }
 
+        let playerHandWindow = (
+            <PlayerHandWindow
+                cards={this.props.G.players[this.props.playerID].hand}
+                playedCards={this.props.G.board}
+                bidding={this.props.G.bidding}
+            />
+        )
         let playerWindow = (
             <PlayerWindow
                 players={this.props.G.players}
@@ -80,13 +83,21 @@ class SkullKingBoard extends React.Component {
         );
 
         return (
-            <div>
-                {playerWindow}
-                <div id="board">
-                    {playedCardsList}
-                </div> 
-                {bidWindow}
-                {playerCardList}
+            <div id="gameWindow">
+                <div className="leftColumn">
+                    {playerWindow}
+                </div>
+                <div className="rightColumn">
+                    <div id="board">
+                        {playedCardsList}
+                    </div> 
+                    <div className="bidWindow">
+                        {bidWindow}
+                    </div>
+                    <div className="playerCardsWindow">
+                        {playerHandWindow}
+                    </div>
+                </div>
             </div>
         );
     }

@@ -1,3 +1,21 @@
+#gameWindow {
+    display: flex;
+    flex-direction: row;
+}
+
+.leftColumn {
+    width: 20%;
+}
+.rightColumn {
+    width: 80%;
+}
+
+.bidWindow,
+.playerCardsWindow {
+    display: flex;
+    justify-content: center;
+}
+
 #playedCards {
     padding: 20px;
     text-align: center;
@@ -12,6 +30,7 @@
 #playerCards {
     padding: 20px;
     text-align: center;
+    min-width: 50%;
 }
 
 #playerCards.active-turn {
@@ -40,7 +59,10 @@
 
 #bid-window {
     padding: 20px;
+    background: lightgrey;
     text-align: center;
+    border-radius: 40px;
+    border: 4px solid grey;
 }
 
 #bid-window button {
