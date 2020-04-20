@@ -30,6 +30,7 @@ const SkullKing = {
         startingRoundPlayer: 0,
         board: [],
         players: [],
+        scores: [],
     }),
 
     turn: { 
@@ -155,11 +156,11 @@ const SkullKing = {
                         G.players[i].potentialScore += scores.getPotentialScores(G.players[i], i, G.board);
                     }
                     console.log('player ', G.players[winner].name, ' won');
-                    console.log(G.roundHand, G.round);
                     if ( G.roundHand === G.round) {
                         console.log('Ending Round: onEnd');
                         // Score 
                         G.players = scores.getRoundScores(G.players, G.round);
+                        G.scores.push(G.players);
                     }
                 }
             },

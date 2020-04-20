@@ -221,6 +221,22 @@ it('Suit set, has suit', () => {
     expect(card4).toEqual(true);
 });
 
+it('Suit set, has suit', () => {
+    G.board = [
+        { card: { value: 6, color: 'yellow' }, player: 'Player 1' },
+    ];
+
+    playerHand = [
+        { value: 10, color: 'yellow' },
+        { value: 12, color: 'purple' },
+    ]
+
+    let card1 = skCards.isCardAllowed(playerHand[0], playerHand, G.board);
+    let card2 = skCards.isCardAllowed(playerHand[1], playerHand, G.board);
+    expect(card1).toEqual(true);
+    expect(card2).toEqual(false);
+});
+
 it('Suit set, doesnt have suit', () => {
     G.board = [
         { card: { value: 5, color: 'green' }, player: 'Player 1' },
