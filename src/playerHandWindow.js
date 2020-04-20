@@ -1,5 +1,5 @@
 import React from 'react';
-import {getAllowedCards} from './cardDeck';
+import * as skCards from "./cardDeck";
 
 class PlayerHandWindow extends React.Component {
     constructor(props) {
@@ -10,11 +10,7 @@ class PlayerHandWindow extends React.Component {
     }
 
     canPlayCard = (card) => {
-        return true;
-        console.log(this.props.G.players[this.props.playerID].hand[card].color);
-        if (this.props.G.players[this.props.playerID].hand[card].color === 'green') {
-            return true;
-        }
+        return skCards.isCardAllowed(this.props.cards[card], this.props.cards, this.props.playedCards);
     }
 
     selectCard = card => {
@@ -26,13 +22,13 @@ class PlayerHandWindow extends React.Component {
     render() {
 
         let cards = [];
-        let allowedCards = [];
-        allowedCards = cardDeck.getAllowedCards(this.props.cards, this.props.playedCards);
+        let cardAllowed = null;
         for (let i = 0; i < this.props.cards.length; i++) {
+            cardAllowed = skCards.isCardAllowed(this.props.cards[i], this.props.cards, this.props.playedCards);
             cards.push(
                 <div
                     key={i}
-                    className='card'
+                    className={'card ' + (cardAllowed ? 'cardAllowed' : '')}
                     onClick={() => this.selectCard(i)}
                 >
                     {this.props.cards[i].value + ' ' + this.props.cards[i].color}

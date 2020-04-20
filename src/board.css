@@ -57,6 +57,10 @@
     transform: scale(1.2);
 }
 
+.card.cardAllowed {
+    border: 3px solid #007bff;
+}
+
 #bid-window {
     padding: 20px;
     background: lightgrey;
