@@ -15,17 +15,8 @@ class SkullKingBoard extends React.Component {
         isMultiplayer: PropTypes.bool,
     }
 
-    canPlayCard = (card) => {
-        console.log(this.props.G.players[this.props.playerID].hand[card].color);
-        if (this.props.G.players[this.props.playerID].hand[card].color === 'green') {
-            return true;
-        }
-    }
-
-    selectCard = card => {
-        if (this.canPlayCard(card)) {
-            this.props.moves.chooseCard(card);
-        }
+    handleSelectCard = card => {
+        this.props.moves.chooseCard(card);
     }
 
     selectBid = bid => {
@@ -58,7 +49,8 @@ class SkullKingBoard extends React.Component {
 
         let bidWindow = '';
         if (this.props.G.bidding) {
-            bidWindow = (<BidWindow
+            bidWindow = (
+            <BidWindow
                 round={this.props.G.round}
                 player={this.props.playerID} 
                 onClick={this.handleBidClick}
@@ -70,6 +62,8 @@ class SkullKingBoard extends React.Component {
                 cards={this.props.G.players[this.props.playerID].hand}
                 playedCards={this.props.G.board}
                 bidding={this.props.G.bidding}
+                isActive={this.props.ctx.currentPlayer === this.props.playerID}
+                onSelectCard={this.handleSelectCard}
             />
         )
         let playerWindow = (

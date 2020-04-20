@@ -3,6 +3,7 @@ import * as skCards from "./cardDeck";
 const G = {
     board: [],
 };
+let playerHand = [];
 
 it('Player 1 Wins: Same Suit', () => {
     // Set up delt cards
@@ -147,4 +148,167 @@ it('Player 1 Wins: Everyone Passes', () => {
 
     let winner = skCards.getWinner(G.board);
     expect(winner).toEqual(0);
+});
+
+it('Suit is green', () => {
+    G.board = [
+        { card: { value: 4, color: 'green' }, player: 'Player 1' },
+        { card: { value: 5, color: 'green' }, player: 'Player 2' },
+        { card: { value: 1, color: 'black' }, player: 'Player 3' },
+        { card: { value: 2, color: 'yellow' }, player: 'Player 4' },
+    ];
+
+    let suit = skCards.getCurrentSuit(G.board);
+    expect(suit).toEqual('green');
+});
+
+it('Suit is yellow', () => {
+    G.board = [
+        { card: { value: 0, color: 'white' }, player: 'Player 1' },
+        { card: { value: 5, color: 'yellow' }, player: 'Player 2' },
+        { card: { value: 1, color: 'black' }, player: 'Player 3' },
+        { card: { value: 2, color: 'yellow' }, player: 'Player 4' },
+    ];
+
+    let suit = skCards.getCurrentSuit(G.board);
+    expect(suit).toEqual('yellow');
+});
+
+it('Suit is black', () => {
+    G.board = [
+        { card: { value: 10, color: 'black' }, player: 'Player 1' },
+        { card: { value: 5, color: 'yellow' }, player: 'Player 2' },
+        { card: { value: 1, color: 'black' }, player: 'Player 3' },
+        { card: { value: 2, color: 'yellow' }, player: 'Player 4' },
+    ];
+
+    let suit = skCards.getCurrentSuit(G.board);
+    expect(suit).toEqual('black');
+});
+
+it('Suit is none', () => {
+    G.board = [
+        { card: { value: 20, color: 'red' }, player: 'Player 1' },
+        { card: { value: 5, color: 'yellow' }, player: 'Player 2' },
+        { card: { value: 1, color: 'black' }, player: 'Player 3' },
+        { card: { value: 2, color: 'yellow' }, player: 'Player 4' },
+    ];
+
+    let suit = skCards.getCurrentSuit(G.board);
+    expect(suit).toEqual('none');
+});
+
+it('Suit set, has suit', () => {
+    G.board = [
+        { card: { value: 5, color: 'green' }, player: 'Player 1' },
+        { card: { value: 3, color: 'yellow' }, player: 'Player 2' },
+    ];
+
+    playerHand = [
+        { value: 6, color: 'purple' },
+        { value: 3, color: 'green' },
+        { value: 9, color: 'black' },
+        { value: 0, color: 'white' },
+    ]
+
+    let card1 = skCards.isCardAllowed(playerHand[0], playerHand, G.board);
+    let card2 = skCards.isCardAllowed(playerHand[1], playerHand, G.board);
+    let card3 = skCards.isCardAllowed(playerHand[2], playerHand, G.board);
+    let card4 = skCards.isCardAllowed(playerHand[3], playerHand, G.board);
+    expect(card1).toEqual(false);
+    expect(card2).toEqual(true);
+    expect(card3).toEqual(false);
+    expect(card4).toEqual(true);
+});
+
+it('Suit set, doesnt have suit', () => {
+    G.board = [
+        { card: { value: 5, color: 'green' }, player: 'Player 1' },
+        { card: { value: 3, color: 'yellow' }, player: 'Player 2' },
+    ];
+
+    playerHand = [
+        { value: 6, color: 'purple' },
+        { value: 3, color: 'yellow' },
+        { value: 9, color: 'black' },
+        { value: 0, color: 'white' },
+    ]
+
+    let card1 = skCards.isCardAllowed(playerHand[0], playerHand, G.board);
+    let card2 = skCards.isCardAllowed(playerHand[1], playerHand, G.board);
+    let card3 = skCards.isCardAllowed(playerHand[2], playerHand, G.board);
+    let card4 = skCards.isCardAllowed(playerHand[3], playerHand, G.board);
+    expect(card1).toEqual(true);
+    expect(card2).toEqual(true);
+    expect(card3).toEqual(true);
+    expect(card4).toEqual(true);
+});
+
+it('Suit black, has black', () => {
+    G.board = [
+        { card: { value: 5, color: 'black' }, player: 'Player 1' },
+        { card: { value: 3, color: 'yellow' }, player: 'Player 2' },
+    ];
+
+    playerHand = [
+        { value: 6, color: 'purple' },
+        { value: 3, color: 'yellow' },
+        { value: 9, color: 'black' },
+        { value: 0, color: 'white' },
+    ]
+
+    let card1 = skCards.isCardAllowed(playerHand[0], playerHand, G.board);
+    let card2 = skCards.isCardAllowed(playerHand[1], playerHand, G.board);
+    let card3 = skCards.isCardAllowed(playerHand[2], playerHand, G.board);
+    let card4 = skCards.isCardAllowed(playerHand[3], playerHand, G.board);
+    expect(card1).toEqual(false);
+    expect(card2).toEqual(false);
+    expect(card3).toEqual(true);
+    expect(card4).toEqual(true);
+});
+
+it('Suit black, doesnt have black', () => {
+    G.board = [
+        { card: { value: 5, color: 'black' }, player: 'Player 1' },
+        { card: { value: 3, color: 'yellow' }, player: 'Player 2' },
+    ];
+
+    playerHand = [
+        { value: 6, color: 'purple' },
+        { value: 3, color: 'yellow' },
+        { value: 9, color: 'green' },
+        { value: 0, color: 'white' },
+    ]
+
+    let card1 = skCards.isCardAllowed(playerHand[0], playerHand, G.board);
+    let card2 = skCards.isCardAllowed(playerHand[1], playerHand, G.board);
+    let card3 = skCards.isCardAllowed(playerHand[2], playerHand, G.board);
+    let card4 = skCards.isCardAllowed(playerHand[3], playerHand, G.board);
+    expect(card1).toEqual(true);
+    expect(card2).toEqual(true);
+    expect(card3).toEqual(true);
+    expect(card4).toEqual(true);
+});
+
+it('Pirate Led', () => {
+    G.board = [
+        { card: { value: 20, color: 'red' }, player: 'Player 1' },
+        { card: { value: 3, color: 'yellow' }, player: 'Player 2' },
+    ];
+
+    playerHand = [
+        { value: 6, color: 'purple' },
+        { value: 20, color: 'red' },
+        { value: 9, color: 'black' },
+        { value: 0, color: 'white' },
+    ]
+
+    let card1 = skCards.isCardAllowed(playerHand[0], playerHand, G.board);
+    let card2 = skCards.isCardAllowed(playerHand[1], playerHand, G.board);
+    let card3 = skCards.isCardAllowed(playerHand[2], playerHand, G.board);
+    let card4 = skCards.isCardAllowed(playerHand[3], playerHand, G.board);
+    expect(card1).toEqual(true);
+    expect(card2).toEqual(true);
+    expect(card3).toEqual(true);
+    expect(card4).toEqual(true);
 });

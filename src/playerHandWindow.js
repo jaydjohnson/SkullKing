@@ -1,4 +1,5 @@
 import React from 'react';
+import {getAllowedCards} from './cardDeck';
 
 class PlayerHandWindow extends React.Component {
     constructor(props) {
@@ -18,13 +19,15 @@ class PlayerHandWindow extends React.Component {
 
     selectCard = card => {
         if (this.canPlayCard(card)) {
-            this.props.moves.chooseCard(card);
+            this.props.onSelectCard(card);
         }
     }
 
     render() {
 
         let cards = [];
+        let allowedCards = [];
+        allowedCards = cardDeck.getAllowedCards(this.props.cards, this.props.playedCards);
         for (let i = 0; i < this.props.cards.length; i++) {
             cards.push(
                 <div
@@ -37,7 +40,12 @@ class PlayerHandWindow extends React.Component {
             );
         }
 
-        let playerHandList = (<div id="playerCards" className={this.props.isActive && !this.props.G.bidding ? 'active-turn' : ''}><h3>Your Cards:</h3><div className="playerCards-list">{cards}</div></div>);
+        let playerHandList = (
+            <div id="playerCards" className={this.props.isActive && !this.props.bidding ? 'active-turn' : ''}>
+                <h3>Your Cards:</h3>
+                <div className="playerCards-list">{cards}</div>
+            </div>)
+        ;
 
 
         return (

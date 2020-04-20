@@ -99,7 +99,7 @@ export function getWinner(cards) {
     let card = null;
     let piratePlayed = false;
     for (let i = 0; i < cards.length; i++ ) {
-        card =  cards[i].card;
+        card = cards[i].card;
         if ((suit === '' && ['yellow', 'green', 'purple', 'black', 'red'].includes(card.color))) {
             suit = card.color;
             winner = i;
@@ -125,4 +125,50 @@ export function getWinner(cards) {
 
     }
     return winner;
+}
+
+export function getCurrentSuit(playedCards) {
+    let suit = '';
+    let card = null;
+    for(let i=0; i<playedCards.length; i++) {
+        card = playedCards[i].card;
+
+        if (i === 0 && ['red', 'skullking'].includes(card.color)) {
+            suit = 'none';
+        }
+
+        if ((suit === '' && ['yellow', 'green', 'purple', 'black'].includes(card.color))) {
+            suit = card.color;
+        }
+    }
+
+    return suit;
+}
+
+export function hasCurrentSuit(playerCards, currentSuit) {
+    for(let i=0; i<playerCards.length; i++) {
+        if (playerCards[i].color === currentSuit) {
+            return true;
+        }
+    }
+    return false;
+}
+
+export function isCardAllowed(card, playerCards, playedCards) {
+    let currentSuit = getCurrentSuit(playedCards);
+    let playerHasCurrentSuit = hasCurrentSuit(playerCards, currentSuit);
+
+    if (['skullking', 'tirges', 'red', 'white'].includes(card.color)) {
+        return true;
+    }
+
+    if (playerHasCurrentSuit && card.color === currentSuit) {
+        return true;
+    }
+
+    if (! playerHasCurrentSuit) {
+        return true;
+    }
+
+    return false;
 }
