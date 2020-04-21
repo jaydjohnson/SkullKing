@@ -9,11 +9,11 @@ class BidWindow extends React.Component {
         }
     }
 
-    selectBid(i) {
+    selectBid = (i) => {
         this.setState({selectedBid: i});
     }
 
-    confirmBid() {
+    confirmBid = () => {
         if (this.state.selectedBid !== null) {
             this.setState({confirmedBid: true});
             this.props.onClick(this.state.selectedBid, parseInt(this.props.player));
@@ -41,7 +41,7 @@ class BidWindow extends React.Component {
                 
             )
         }
-        let bidButton = this.state.confirmedBid ? '' : (<button onClick={() => this.confirmBid()}>Yo Ho Ho!</button>);
+        let bidButton = this.state.confirmedBid ? '' : (<button onClick={this.confirmBid}>Yo Ho Ho!</button>);
 
         return (
             <div id="bid-window">

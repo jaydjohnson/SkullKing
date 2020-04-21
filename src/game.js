@@ -6,7 +6,7 @@ function ResetHands(G, ctx) {
     for (let i = 0; i < ctx.numPlayers; i++) {
         G.players[i].hand = [];
         G.players[i].currentBid = null;
-        G.players[i].potentialScore = 0;
+        G.players[i].roundBonus = 0;
         G.players[i].tricks = 0;
     }
 }
@@ -67,7 +67,7 @@ const SkullKing = {
                     G.players[i] = {
                         hand: [],
                         score: 0,
-                        potentialScore: 0,
+                        roundBonus: 0,
                         tricks: 0,
                         playerIndex: i,
                         currentBid: null,
@@ -153,12 +153,17 @@ const SkullKing = {
                     G.startingRoundPlayer = winner;
                     G.players[winner].tricks++;
                     for (let i = 0; i < ctx.numPlayers; i++ ) {
-                        G.players[i].potentialScore += scores.getPotentialScores(G.players[i], i, G.board);
+                        if ( G.players[i].currentBid > 0) {
+                            G.players[i].roundBonus += scores.scoreCaptures(i, G.board);
+                        }
                     }
+                    G.board.map((card) => console.log(card.card.value, card.card.color));
+                    G.players.map((player) => console.log(player.name, player.roundBonus));
                     console.log('player ', G.players[winner].name, ' won');
                     if ( G.roundHand === G.round) {
                         console.log('Ending Round: onEnd');
                         // Score 
+                        console.log( scores.getRoundScoresOnly(G.players, G.round) );
                         G.players = scores.getRoundScores(G.players, G.round);
                         G.scores.push(G.players);
                     }
