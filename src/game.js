@@ -97,6 +97,9 @@ const SkullKing = {
                         DrawCard(G, ctx, i, deck);
                     }
                 }
+                for (let i = 0; i < ctx.numPlayers; i++) {
+                    G.players[i].hand = skCards.sortHand(G.players[i].hand);
+                }
                 G.bidding = true;
                 G.dealer = (G.dealer + 1) % ctx.numPlayers;
                 G.startingRoundPlayer = (G.dealer + 1) % ctx.numPlayers

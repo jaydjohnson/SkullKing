@@ -93,6 +93,19 @@ export function ShuffledSkullKingDeck() {
     return Shuffle(Shuffle(Shuffle(SkullKingDeck())));
 }
 
+function cardIndex(card) {
+    let colorIndexes = { "white": -1, "yellow": 1, "green": 2, "purple": 3, "black": 4, "red": 5, "tigres": 6, "skullking": 7}
+    return ((colorIndexes[card.color] * 14) + card.value - 1);
+}
+
+export function sortHand(hand) {
+    return hand.sort((a, b) => {
+        let aIndex = cardIndex(a);
+        let bIndex = cardIndex(b);
+        return aIndex-bIndex;
+    });
+}
+
 export function getWinner(cards) {
     let suit = '';
     let winner = 0;
