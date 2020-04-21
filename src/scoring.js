@@ -7,13 +7,13 @@ export function getPotentialScores(player, playerIndex, cards) {
         console.log(playerIndex + ' potential +20');
         score += 20;
         // Check Captures/Bonus
-        score += scoreCaptures(playerIndex, cards);
+        score += getRoundBonus(playerIndex, cards);
     }
 
     return score;
 }
 
-export function scoreCaptures(playerIndex, cards) {
+export function getRoundBonus(playerIndex, cards) {
     let bonus = 0;
     for (let i = 0; cards[i].player !== playerIndex; i++) {
         if (cards[i].card.value === 14 && cards[i].card.color !== 'black') {

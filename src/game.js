@@ -152,10 +152,9 @@ const SkullKing = {
                     let winner = G.board[winnerIndex].player;
                     G.startingRoundPlayer = winner;
                     G.players[winner].tricks++;
-                    for (let i = 0; i < ctx.numPlayers; i++ ) {
-                        if ( G.players[i].currentBid > 0) {
-                            G.players[i].roundBonus += scores.scoreCaptures(i, G.board);
-                        }
+                    // Give Winner any bonuses
+                    if ( G.players[winner].currentBid > 0) {
+                        G.players[winner].roundBonus += scores.getRoundBonus(winner, G.board);
                     }
                     G.board.map((card) => console.log(card.card.value, card.card.color));
                     G.players.map((player) => console.log(player.name, player.roundBonus));
