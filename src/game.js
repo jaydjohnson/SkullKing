@@ -31,23 +31,8 @@ const SkullKing = {
         board: [],
         players: [],
         scores: [],
+        ready: false,
     }),
-
-    turn: { 
-        moveLimit: 1,
-
-        order: TurnOrder.ONCE,
-
-        stages: {
-            bidding: {
-                moves: {
-                    selectBidAmount: (G, ctx, bid) => {
-                        G.players[ctx.playerID].currentBid = bid;
-                    }
-                }
-            },
-        },
-    },
 
     moves: {
         chooseCard(G, ctx, card) {
@@ -169,6 +154,9 @@ const SkullKing = {
                         G.players = scores.getRoundScores(G.players, G.round);
                         G.scores.push(G.players);
                     }
+                    console.log('Setting ENDING HAND!?!??!');
+                    //ctx.events.setPhase('endHand');
+                    //ctx.events.setActivePlayers({currentPlayer: 'endingHand'});
                 }
             },
 
@@ -179,7 +167,7 @@ const SkullKing = {
                 }
             },
 
-            next: 'play',
+            //next: 'play',
 
             turn: {
                 moveLimit: 1,
@@ -194,6 +182,32 @@ const SkullKing = {
                         return (ctx.playOrderPos + 1) % ctx.numPlayers;
                     },
                     playOrder: (G, ctx) => ['0', '1', '2', '3'],
+                }
+            }
+        },
+
+        endHand: {
+            onBegin: (G, ctx) => {
+                console.log('endHand');
+            },
+
+            endIf: (G, ctx) => {
+                if ( G.ready ) {
+                    ctx.events.endPhase();
+                }
+            },
+
+            next: 'deal',
+
+            turn: {
+                order: TurnOrder.ONCE,
+
+                activePlayers: { currentPlayer: 'endingHand', moveLimit: 1, revert: true }
+            },
+            
+            moves: {
+                confirmReady: (G, ctx) => {
+                    G.ready = true;
                 }
             }
         },

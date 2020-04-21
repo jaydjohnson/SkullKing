@@ -15,6 +15,11 @@ class SkullKingBoard extends React.Component {
         isMultiplayer: PropTypes.bool,
     }
 
+    endHand = () => {
+        console.log('end?');
+        this.ctx.events.endStage();
+    }
+
     handleSelectCard = card => {
         this.props.moves.chooseCard(card);
     }
@@ -77,6 +82,7 @@ class SkullKingBoard extends React.Component {
             />
         );
 
+        let readyButton = this.props.ctx.phase === 'endHand' && this.props.ctx.currentPlayer === this.props.playerID ? (<button onClick={this.endRound}>End Hand</button>) : '';
         return (
             <div id="gameWindow">
                 <div className="leftColumn">
@@ -86,6 +92,7 @@ class SkullKingBoard extends React.Component {
                     <div id="board">
                         {playedCardsList}
                     </div> 
+                    {readyButton}
                     <div className="bidWindow">
                         {bidWindow}
                     </div>
