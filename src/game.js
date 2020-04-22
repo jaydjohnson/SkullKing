@@ -32,9 +32,30 @@ const SkullKing = {
 
     moves: {
         chooseCard(G, ctx, card) {
+            if (G.players[ctx.currentPlayer].hand[card].color === 'black') {
+                console.log('tigres played');
+                //ctx.events.setPhase('selectTigres');
+                ctx.events.setActivePlayers({currentPlayer: 'selectTigres', moveLimit: 1});
+            }
             G.board.push({card: G.players[ctx.currentPlayer].hand[card], player: G.players[ctx.currentPlayer].playerIndex});
             G.players[ctx.currentPlayer].hand.splice(card, 1);
         },
+    },
+
+    stages: {
+        selectTigres: {
+            moves: {
+                selectTigres: (G, ctx, card) => {
+                    if (card === 1) {
+                        G.board[G.board.length - 1].card.value = 0;
+                        G.board[G.board.length - 1].card.color = 'white';
+                    } else {
+                        G.board[G.board.length - 1].card.value = 20;
+                        G.board[G.board.length - 1].card.color = 'red';
+                    }
+                }
+            }
+        }
     },
 
     phases: {
@@ -152,6 +173,30 @@ const SkullKing = {
                 }
             }
         },
+
+        // selectTigres: {
+        //     turn: {
+        //         order: TurnOrder.ONCE,
+
+        //         activePlayers: { currentPlayer: 'selectTigres', moveLimit: 1, revert: true },
+
+        //         stages: {
+        //             selectTigres: {
+        //                 moves: {
+        //                     selectTigres: (G, ctx, card) => {
+        //                         if (card === 1) {
+        //                             G.board[G.board.length - 1].card.value = 0;
+        //                             G.board[G.board.length - 1].card.color = 'white';
+        //                         } else {
+        //                             G.board[G.board.length - 1].card.value = 20;
+        //                             G.board[G.board.length - 1].card.color = 'red';
+        //                         }
+        //                     }
+        //                 }
+        //             }
+        //         },
+        //     },
+        // },
 
         endHand: {
             onBegin: (G, ctx) => {
