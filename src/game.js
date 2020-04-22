@@ -15,10 +15,6 @@ function DrawCard(G, ctx, player, deck) {
     G.players[player].hand.push(deck.shift())
 }
 
-// function getRndInteger(min, max) {
-//     return Math.floor(Math.random() * (max - min + 1)) + min;
-// }
-
 const SkullKing = {
     name: 'Skull-King',
 
@@ -31,23 +27,8 @@ const SkullKing = {
         board: [],
         players: [],
         scores: [],
+        ready: false,
     }),
-
-    turn: { 
-        moveLimit: 1,
-
-        order: TurnOrder.ONCE,
-
-        stages: {
-            bidding: {
-                moves: {
-                    selectBidAmount: (G, ctx, bid) => {
-                        G.players[ctx.playerID].currentBid = bid;
-                    }
-                }
-            },
-        },
-    },
 
     moves: {
         chooseCard(G, ctx, card) {
@@ -97,6 +78,9 @@ const SkullKing = {
                         DrawCard(G, ctx, i, deck);
                     }
                 }
+                for (let i = 0; i < ctx.numPlayers; i++) {
+                    G.players[i].hand = skCards.sortHand(G.players[i].hand);
+                }
                 G.bidding = true;
                 G.dealer = (G.dealer + 1) % ctx.numPlayers;
                 G.startingRoundPlayer = (G.dealer + 1) % ctx.numPlayers
@@ -142,42 +126,17 @@ const SkullKing = {
                 G.roundHand++;
                 G.board = [];
                 G.bidding = false;
-            },
-
-            onEnd: (G, ctx) => {
-                // Pass to winner of last hand
-                console.log('Ending Hand');
-                if (G.board.length) {
-                    let winnerIndex = skCards.getWinner(G.board);
-                    let winner = G.board[winnerIndex].player;
-                    G.startingRoundPlayer = winner;
-                    G.players[winner].tricks++;
-                    for (let i = 0; i < ctx.numPlayers; i++ ) {
-                        if ( G.players[i].currentBid > 0) {
-                            G.players[i].roundBonus += scores.scoreCaptures(i, G.board);
-                        }
-                    }
-                    G.board.map((card) => console.log(card.card.value, card.card.color));
-                    G.players.map((player) => console.log(player.name, player.roundBonus));
-                    console.log('player ', G.players[winner].name, ' won');
-                    if ( G.roundHand === G.round) {
-                        console.log('Ending Round: onEnd');
-                        // Score 
-                        console.log( scores.getRoundScoresOnly(G.players, G.round) );
-                        G.players = scores.getRoundScores(G.players, G.round);
-                        G.scores.push(G.players);
-                    }
-                }
+                G.ready = false;
             },
 
             endIf: (G, ctx) => {
                 if ( G.roundHand > G.round) {
                     console.log('Ending RoundIf');
-                    ctx.events.setPhase('deal');
+                    return { next: 'deal' }
                 }
             },
 
-            next: 'play',
+            next: 'endHand',
 
             turn: {
                 moveLimit: 1,
@@ -187,13 +146,60 @@ const SkullKing = {
                     next: (G, ctx) => {
                         if (parseInt(ctx.currentPlayer) === (G.startingRoundPlayer + ctx.numPlayers - 1) % ctx.numPlayers) {
                             ctx.events.endPhase()
-                            //return undefined;
                         }
                         return (ctx.playOrderPos + 1) % ctx.numPlayers;
                     },
-                    playOrder: (G, ctx) => ['0', '1', '2', '3'],
                 }
             }
+        },
+
+        endHand: {
+            onBegin: (G, ctx) => {
+                console.log('endHand');
+                let winnerIndex = skCards.getWinner(G.board);
+                let winner = G.board[winnerIndex].player;
+                G.startingRoundPlayer = winner;
+                G.players[winner].tricks++;
+                // Give Winner any bonuses
+                if ( G.players[winner].currentBid > 0) {
+                    G.players[winner].roundBonus += scores.getRoundBonus(winner, G.board);
+                }
+                G.board.map((card) => console.log(card.card.value, card.card.color));
+                G.players.map((player) => console.log(player.name, player.roundBonus));
+                console.log('player ', G.players[winner].name, ' won');
+                if ( G.roundHand === G.round) {
+                    console.log('Ending Round: onEnd');
+                    // Score 
+                    console.log( scores.getRoundScoresOnly(G.players, G.round) );
+                    G.players = scores.getRoundScores(G.players, G.round);
+                    G.scores.push(G.players);
+                }
+                console.log('Setting ENDING HAND!?!??!');
+            },
+
+            endIf: (G, ctx) => {
+                if ( G.ready ) {
+                    return G.roundHand > G.round ? { next: 'deal' } : { next: 'play' }
+                }
+            },
+
+            next: 'deal',
+
+            turn: {
+                order: TurnOrder.ONCE,
+
+                activePlayers: { currentPlayer: 'endingHand', moveLimit: 1, revert: true },
+
+                stages: {
+                    endingHand: {
+                        moves: {
+                            confirmReady: (G, ctx) => {
+                                G.ready = true;
+                            }
+                        }
+                    }
+                },
+            },
         },
 
     },

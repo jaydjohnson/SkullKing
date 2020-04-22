@@ -37,7 +37,7 @@ class BidWindow extends React.Component {
 
         if (this.state.confirmedBid) {
             bidNumbers = (
-                <h3>Waiting for other players...You bid {this.state.selectedBid}</h3>
+                <h3>Waiting for other players...<br/>You bid {this.state.selectedBid}</h3>
                 
             )
         }
@@ -45,7 +45,7 @@ class BidWindow extends React.Component {
 
         return (
             <div id="bid-window">
-                <h3>Select your bid</h3>
+                {this.state.confirmedBid ? '' : (<h3>Select your bid</h3>)}
                 <div className="bid-list">
                     {bidNumbers}
                 </div>

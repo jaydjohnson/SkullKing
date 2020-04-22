@@ -4,6 +4,7 @@ import './board.css';
 import BidWindow from './bidWindow.js';
 import PlayerWindow from './playerWindow';
 import PlayerHandWindow from './playerHandWindow';
+import * as skCards from "./cardDeck";
 
 class SkullKingBoard extends React.Component {
     static propTypes = {
@@ -13,6 +14,11 @@ class SkullKingBoard extends React.Component {
         playerID: PropTypes.string,
         isActive: PropTypes.bool,
         isMultiplayer: PropTypes.bool,
+    }
+
+    endHand() {
+        console.log('end?', this.props.playerID);
+        this.props.moves.confirmReady();
     }
 
     handleSelectCard = card => {
@@ -45,7 +51,7 @@ class SkullKingBoard extends React.Component {
             )
         }
 
-        let playedCardsList = (<div id="playedCards"><h3>Played Cards:</h3><div className="playedCards-list">{playedCards}</div></div>);
+        let playedCardsList = (<div id="playedCards"><div className="playedCards-list">{playedCards}</div></div>);
 
         let bidWindow = '';
         if (this.props.G.bidding) {
@@ -77,6 +83,13 @@ class SkullKingBoard extends React.Component {
             />
         );
 
+        let winnerMessage = '';
+        if (this.props.ctx.phase === 'endHand') {
+            let winnerIndex = skCards.getWinner(this.props.G.board);
+            let winner = this.props.G.board[winnerIndex].player;
+            winnerMessage = this.props.ctx.phase === 'endHand' ? this.props.G.players[winner].name + ' won this hand!' + (this.props.G.players[winner].roundBonus ? '  And got bonus points!' : '') : '';            
+        }
+        let readyButton = this.props.ctx.phase === 'endHand' && this.props.ctx.currentPlayer === this.props.playerID ? (<button onClick={() => this.endHand()}>End Hand</button>) : '';
         return (
             <div id="gameWindow">
                 <div className="leftColumn">
@@ -84,7 +97,10 @@ class SkullKingBoard extends React.Component {
                 </div>
                 <div className="rightColumn">
                     <div id="board">
+                        <h3>Played Cards:</h3>
+                        {winnerMessage}
                         {playedCardsList}
+                        {readyButton}
                     </div> 
                     <div className="bidWindow">
                         {bidWindow}
