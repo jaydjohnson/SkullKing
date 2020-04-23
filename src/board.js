@@ -21,8 +21,8 @@ class SkullKingBoard extends React.Component {
         this.props.moves.confirmReady();
     }
 
-    handleSelectCard = card => {
-        this.props.moves.chooseCard(card);
+    handleSelectCard = (card, tigresValue )=> {
+        this.props.moves.chooseCard(card, tigresValue);
     }
 
     selectBid = bid => {

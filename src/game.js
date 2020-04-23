@@ -31,7 +31,16 @@ const SkullKing = {
     }),
 
     moves: {
-        chooseCard(G, ctx, card) {
+        chooseCard(G, ctx, card, tigresValue) {
+            if (tigresValue) {
+                if (tigresValue === 1) {
+                    G.players[ctx.currentPlayer].hand[card].value = 0;
+                    G.players[ctx.currentPlayer].hand[card].color = 'white';
+                } else {
+                    G.players[ctx.currentPlayer].hand[card].value = 20;
+                    G.players[ctx.currentPlayer].hand[card].color = 'red';
+                }
+            }
             G.board.push({card: G.players[ctx.currentPlayer].hand[card], player: G.players[ctx.currentPlayer].playerIndex});
             G.players[ctx.currentPlayer].hand.splice(card, 1);
         },
