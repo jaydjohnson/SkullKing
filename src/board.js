@@ -45,7 +45,7 @@ class SkullKingBoard extends React.Component {
                         {this.props.G.board[i].card.value + ' ' + this.props.G.board[i].card.color}
                     </div>
                     <div>
-                        {this.props.G.board[i].player}
+                        {this.props.G.players[this.props.G.board[i].player].name}
                     </div>
                 </div>
             )
@@ -70,6 +70,7 @@ class SkullKingBoard extends React.Component {
                 bidding={this.props.G.bidding}
                 isActive={this.props.ctx.currentPlayer === this.props.playerID}
                 onSelectCard={this.handleSelectCard}
+                phase={this.props.ctx.phase}
             />
         )
         let playerWindow = (
@@ -80,6 +81,7 @@ class SkullKingBoard extends React.Component {
                 nextPlayer={this.props.G.startingRoundPlayer}
                 currentRound={this.props.G.round}
                 scores={this.props.G.scores}
+                phase={this.props.ctx.phase}
             />
         );
 

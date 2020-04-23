@@ -1,3 +1,7 @@
+.bgio-client {
+    /*background: url('http://localhost:3000/img/background.jpg');*/
+}
+
 #gameWindow {
     display: flex;
     flex-direction: row;
