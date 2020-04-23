@@ -1,11 +1,14 @@
 import React from 'react';
 import * as skCards from "./cardDeck";
+import TigresWindow from './tigresWindow';
 
 class PlayerHandWindow extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            card: null,
+            chooseTigresValue: false,
+            selectedTigresValue: null,
         }
     }
 
@@ -15,11 +18,26 @@ class PlayerHandWindow extends React.Component {
 
     selectCard = card => {
         if (this.canPlayCard(card)) {
-            this.props.onSelectCard(card);
+            if (this.props.cards[card].color === 'black') {
+                this.setState({card: card, chooseTigresValue: true });
+                return;
+            }
+            this.props.onSelectCard(card, this.state.selectedTigresValue);
         }
     }
 
+    handleSelectTigresValue = value => {
+        this.props.onSelectCard(this.state.card, value);
+        this.setState({selectedTigresValue: null, chooseTigresValue: false});
+    }
+
     render() {
+
+        let tigresWindow = this.state.chooseTigresValue && this.props.isActive ? (
+            <TigresWindow
+                onClick={this.handleSelectTigresValue}
+            />
+        ) : '';
 
         let cards = [];
         let cardAllowed = null;
@@ -46,6 +64,7 @@ class PlayerHandWindow extends React.Component {
 
         return (
             <div className="playerHand">
+                {tigresWindow}
                 {playerHandList}
             </div>
         )

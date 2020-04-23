@@ -4,7 +4,6 @@ import './board.css';
 import BidWindow from './bidWindow.js';
 import PlayerWindow from './playerWindow';
 import PlayerHandWindow from './playerHandWindow';
-import TigresWindow from './tigresWindow';
 import * as skCards from "./cardDeck";
 
 class SkullKingBoard extends React.Component {
@@ -22,8 +21,8 @@ class SkullKingBoard extends React.Component {
         this.props.moves.confirmReady();
     }
 
-    handleSelectCard = card => {
-        this.props.moves.chooseCard(card);
+    handleSelectCard = (card, tigresValue )=> {
+        this.props.moves.chooseCard(card, tigresValue);
     }
 
     selectBid = bid => {
@@ -32,10 +31,6 @@ class SkullKingBoard extends React.Component {
 
     handleBidClick = (bid, player) => {
         this.props.moves.selectBidAmount(bid);
-    }
-
-    handleSelectTigres = value => {
-        this.props.moves.selectTigres(value);
     }
 
     render() {
@@ -88,13 +83,6 @@ class SkullKingBoard extends React.Component {
             />
         );
 
-        let tigresWindow = this.props.ctx.phase === 'selectTigres' && this.props.ctx.currentPlayer === this.props.playerID ? (
-            <TigresWindow
-                player={this.props.ctx.currentPlayer}
-                onClick={this.handleSelectTigres}
-            />
-        ) : '';
-
         let winnerMessage = '';
         if (this.props.ctx.phase === 'endHand') {
             let winnerIndex = skCards.getWinner(this.props.G.board);
@@ -116,7 +104,6 @@ class SkullKingBoard extends React.Component {
                     </div> 
                     <div className="bidWindow">
                         {bidWindow}
-                        {tigresWindow}
                     </div>
                     <div className="playerCardsWindow">
                         {playerHandWindow}

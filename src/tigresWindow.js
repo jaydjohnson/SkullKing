@@ -16,7 +16,7 @@ class TigresWindow extends React.Component {
     confirmOption = () => {
         if (this.state.selectedOption !== null) {
             this.setState({ confirmedOption: true });
-            this.props.onClick(this.state.selectedOption, parseInt(this.props.player));
+            this.props.onClick(this.state.selectedOption);
         }
     }
 
@@ -29,7 +29,7 @@ class TigresWindow extends React.Component {
                 className={'tigresOption white ' + (this.state.selectedOption === 1 ? 'selected' : '')}
                 onClick={() => this.selectOption(1)}
             >
-                White-0
+                Escape
             </div>
         );
         options.push(
@@ -38,15 +38,16 @@ class TigresWindow extends React.Component {
                 className={'tigresOption red ' + (this.state.selectedOption === 2 ? 'selected' : '')}
                 onClick={() => this.selectOption(2)}
             >
-                Red-20
+                Pirate
             </div>
         );
 
-        let optionButton = this.state.confirmedOption ? '' : (<button onClick={this.confirmOption}>Yo Ho Ho!</button>);
+        let optionButton = this.state.confirmedOption ? '' : (<button onClick={this.confirmOption}>Arrrh!</button>);
 
         return (
             <div id="tigres-window">
-                {this.state.selectedOption ? '' : (<h3>Are ye yellow-bellied cur or Pirate?</h3>)}
+                <h3>Are ye Pirate or a yellow-bellied cur?</h3>
+                <p>The Tigres can be played as either a Pirate or on Escape card.</p>
                 <div className="tigres-options">
                     {options}
                 </div>
