@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './board.css';
+import './board.scss';
 import BidWindow from './bidWindow.js';
-import PlayerWindow from './playerWindow';
+import ScoreBoardWindow from './scoreBoardWindow';
 import PlayerHandWindow from './playerHandWindow';
 import * as skCards from "./cardDeck";
 
@@ -73,8 +73,8 @@ class SkullKingBoard extends React.Component {
                 phase={this.props.ctx.phase}
             />
         )
-        let playerWindow = (
-            <PlayerWindow
+        let scoreBoardWindow = (
+            <ScoreBoardWindow
                 players={this.props.G.players}
                 bidding={this.props.G.bidding}
                 activePlayer={this.props.ctx.currentPlayer}
@@ -94,23 +94,31 @@ class SkullKingBoard extends React.Component {
         let readyButton = this.props.ctx.phase === 'endHand' && this.props.ctx.currentPlayer === this.props.playerID ? (<button onClick={() => this.endHand()}>End Hand</button>) : '';
         return (
             <div id="gameWindow">
-                <div className="leftColumn">
+                <div className="header">
                     <h1>Skull King</h1>
-                    {playerWindow}
+                    <div className="header-info">
+                        Round: {this.props.G.round}<br />
+                        Current Player: {this.props.G.players[this.props.ctx.currentPlayer].longName}
+                    </div>
                 </div>
-                <div className="rightColumn">
-                    <div id="board">
-                        <h3>Played Cards:</h3>
-                        {winnerMessage}
-                        {playedCardsList}
-                        {readyButton}
-                    </div> 
-                    <div className="bidWindow">
-                        {bidWindow}
+                <div className="gameContent">
+                    <div className="leftColumn">
+                        {scoreBoardWindow}
                     </div>
-                    <div className="playerCardsWindow">
-                        {playerHandWindow}
-                    </div>
+                    <div className="rightColumn">
+                        <div id="board">
+                            <h3>Played Cards:</h3>
+                            {winnerMessage}
+                            {playedCardsList}
+                            {readyButton}
+                        </div>
+                        <div className="bidWindow">
+                            {bidWindow}
+                        </div>
+                        <div className="playerCardsWindow">
+                            {playerHandWindow}
+                        </div>
+                    </div>                    
                 </div>
             </div>
         );

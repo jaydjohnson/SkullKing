@@ -54,6 +54,7 @@ const SkullKing = {
                 console.log('Starting Game');
 
                 for (let i = 0; i < ctx.numPlayers; i++) {
+                    let name = 'Jay-' + (i + 1);
                     G.players[i] = {
                         hand: [],
                         score: 0,
@@ -61,7 +62,8 @@ const SkullKing = {
                         tricks: 0,
                         playerIndex: i,
                         currentBid: null,
-                        name: 'Bob-' + (i+1),
+                        name: name.substring(0, 6),
+                        longName: name,
                     };
                 }
 

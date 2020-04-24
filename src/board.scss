@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 @font-face {
     font-family: 'MyWebFont';
     src: url('/font/pirate.ttf') format('truetype'); /* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
@@ -7,25 +6,48 @@
 @import url('https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=IM+Fell+English&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=IM+Fell+DW+Pica&display=swap');
-=======
+
+/* Table reset */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
 .bgio-client {
     /*background: url('http://localhost:3000/img/background.jpg');*/
 }
->>>>>>> e0c0616bbcff5d18233aeca6c95feec8f35b04d8
 
 #gameWindow {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     font-family: 'IM Fell English SC', serif;
     font-family: 'MyWebFont', serif;
-    font-size: 24px;
+    font-size: 1.5em;
 }
 
+.header {
+    height: 60px;
+    background-color: rgb(172, 150, 56);
+
+    h1 {
+        margin: 0 20px;
+        float: left;
+    }
+
+    &-info {
+        float: right;
+        margin: 0 20px;
+    }
+}
 .leftColumn {
     width: 20%;
 }
 .rightColumn {
     width: 80%;
+}
+
+h1, h2, h3 {
+    margin: 0;
 }
 
 #board,
@@ -155,42 +177,59 @@
     background: rgb(48, 235, 63);
 }
 
-#player-window .player.active {
-    background: lightgreen;
-}
+.scoreBoardWindow {
+    margin: 10px;
 
-#player-window table.scoreTable {
-    font-size: 1.5em;
-    border-spacing: 0px;
-}
+    &-table {
+        font-size: 1em;
+        border-spacing: 0px;
+        background-color: lightgray;
 
-#player-window table.scoreTable td {
-    border: black 1px solid;
-    padding: 15px 10px 5px;
-    white-space: nowrap;
-    text-align: center;
-    position: relative;
+        td {
+            border: black 1px solid;
+            padding: 15px 5px 0px;
+            white-space: nowrap;
+            text-align: right;
+            position: relative;
+
+            &.active {
+                background: lightgreen;
+            }
+
+            span.playerBid {
+                font-size: .5em;
+                border-right: black 1px solid;
+                border-bottom: black 1px solid;
+                padding: 0 5px;
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+
+            span.roundPoints {
+                text-decoration: none;
+                color: rgb(83, 83, 83);
+                font-size: .5em;
+                border-left: black 1px solid;
+                border-bottom: black 1px solid;
+                padding: 0 5px;
+                position: absolute;
+                top: 0;
+                right: 0;
+
+                &.won {
+                    color: blue;
+                }
+
+                &.lost {
+                    text-decoration: line-through;
+                    color: darkred;
+                }
+            }
+        }
+    }
 }
 
 #player-window table.scoreTable td.active {
     background-color: lightgreen;
-}
-
-#player-window table.scoreTable td span.playerBid {
-    font-size: .5em;
-    border: black 1px solid;
-    padding: 0 5px;
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
-#player-window table.scoreTable td span.roundPoints {
-    color: darkgrey;
-    font-size: .5em;
-    border: black 1px solid;
-    padding: 0 5px;
-    position: absolute;
-    top: 0;
-    right: 0;
 }

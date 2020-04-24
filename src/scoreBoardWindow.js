@@ -1,6 +1,6 @@
 import React from 'react';
 
-class PlayerWindow extends React.Component {
+class ScoreBoardWindow extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -10,15 +10,15 @@ class PlayerWindow extends React.Component {
 
     render() {
 
-        let playerList = [];
+        let bidList = [];
         let playerNames = [];
         for (let i = 0; i < this.props.players.length; i++) {
-            playerList.push(
+            bidList.push(
                 <td 
                     key={i}
                     className={( parseInt(this.props.activePlayer) === i && ! this.props.bidding && this.props.phase !== 'endHand' ? 'active' : '' )}
                 >
-                    {this.props.bidding ? '' : this.props.players[i].tricks + ' / '} 
+                    {this.props.bidding ? '' : this.props.players[i].tricks + '/'} 
                     {this.props.bidding ? (this.props.players[i].currentBid === null ? '??' : '✓') : this.props.players[i].currentBid}
                 </td>
             );
@@ -27,19 +27,26 @@ class PlayerWindow extends React.Component {
             );
         }
 
+        if (this.props.phase === 'endHand') {
+            bidList = Array(this.props.players.length).fill(<td></td>);
+        }
+
         let scoreList = [];
         for (let i = 0; i < this.props.scores.length; i++) {
             let playerRoundScores = [];
             for (let j = 0; j < this.props.players.length; j++) {
+                let player = this.props.scores[i][j];
+                let bidWon = player.currentBid === player.tricks;
+
                 playerRoundScores.push(
                     <td key={'Round' + j}>
                         <span className="playerBid">
-                            {this.props.scores[i][j].currentBid + '/' + this.props.scores[i][j].tricks}
+                            {player.currentBid + '/' + player.tricks}
                         </span>
-                        <span className="roundPoints">
-                            {this.props.scores[i][j].roundBonus}
+                        <span className={"roundPoints " + (player.roundBonus > 0 ? (bidWon ? 'won' : 'lost') : '')}>
+                            {player.roundBonus}
                         </span>
-                        {this.props.scores[i][j].score}
+                        {player.score}
                     </td>
                 )
             }
@@ -54,20 +61,17 @@ class PlayerWindow extends React.Component {
         }
 
         return (
-            <div id="player-window">
-
-                Current Round: {this.props.currentRound}
-
-                <table className="scoreTable">
+            <div className="scoreBoardWindow">
+                <table className="scoreBoardWindow-table">
                     <thead>
-                        <tr>
+                        <tr className="scoreBoardWindow-playerRow">
                             <td></td>
                             {playerNames}
                         </tr>
                     </thead>
                     <tbody>
                         {scoreList}
-                        <tr><td>Current</td>{playerList}</tr>
+                        <tr><td>Current</td>{bidList}</tr>
                     </tbody>
                 </table>
             </div>
@@ -75,4 +79,4 @@ class PlayerWindow extends React.Component {
     }
 }
 
-export default PlayerWindow;
+export default ScoreBoardWindow;
