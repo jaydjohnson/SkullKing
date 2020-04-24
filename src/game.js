@@ -214,6 +214,9 @@ const SkullKing = {
     },
 
     endIf: (G, ctx) => {
+        if (G.round > 10) {
+            return true;
+        }
 
     },
 };

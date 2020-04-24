@@ -93,6 +93,7 @@ class SkullKingBoard extends React.Component {
         return (
             <div id="gameWindow">
                 <div className="leftColumn">
+                    <h1>Skull King</h1>
                     {playerWindow}
                 </div>
                 <div className="rightColumn">

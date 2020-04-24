@@ -10,6 +10,7 @@ const SkullKingClient = Client({
     board: SkullKingBoard,
     multiplayer: Local(),
     numPlayers: 3,
+    debug: false,
 });
 
 const App = () => (

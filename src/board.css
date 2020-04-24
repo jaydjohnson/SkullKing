@@ -1,6 +1,18 @@
+@font-face {
+    font-family: 'MyWebFont';
+    src: url('/font/pirate.ttf') format('truetype'); /* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
+}  
+
+@import url('https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IM+Fell+English&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IM+Fell+DW+Pica&display=swap');
+
 #gameWindow {
     display: flex;
     flex-direction: row;
+    font-family: 'IM Fell English SC', serif;
+    font-family: 'MyWebFont', serif;
+    font-size: 24px;
 }
 
 .leftColumn {
@@ -79,6 +91,7 @@
 #tigres-window button,
 #board button,
 #bid-window button {
+    font-family: 'MyWebFont', serif;
     margin: 20px auto 10px;
     font-size: 1.5em;
     padding: 10px 20px;

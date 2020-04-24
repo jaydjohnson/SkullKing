@@ -49,6 +49,7 @@ class PlayerHandWindow extends React.Component {
                     className={'card ' + (cardAllowed ? 'cardAllowed' : '')}
                     onClick={() => this.selectCard(i)}
                 >
+                    <img src="" onerror={() => this.style.display='none'} alt='card#'/>
                     {this.props.cards[i].value + ' ' + this.props.cards[i].color}
                 </div>
             );
