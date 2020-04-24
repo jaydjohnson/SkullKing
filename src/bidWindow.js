@@ -27,7 +27,7 @@ class BidWindow extends React.Component {
             bidNumbers.push(
                 <div
                     key={i}
-                    className={'bidNumber ' + (this.state.selectedBid === i ? 'selected' : '') }
+                    className={'bidWindow-number ' + (this.state.selectedBid === i ? 'selected' : '') }
                     onClick={() => this.selectBid(i)}
                 >
                     {i}
@@ -44,12 +44,14 @@ class BidWindow extends React.Component {
         let bidButton = this.state.confirmedBid ? '' : (<button onClick={this.confirmBid}>Yo Ho Ho!</button>);
 
         return (
-            <div id="bid-window">
-                {this.state.confirmedBid ? '' : (<h3>Select your bid</h3>)}
-                <div className="bid-list">
-                    {bidNumbers}
+            <div className="bidWindow">
+                <div className="bidWindow-content">
+                    {this.state.confirmedBid ? '' : (<h3>Select your bid</h3>)}
+                    <div className="bidWindow-list">
+                        {bidNumbers}
+                    </div>
+                    {bidButton}
                 </div>
-                {bidButton}
             </div>
         )
     }

@@ -51,7 +51,7 @@ class SkullKingBoard extends React.Component {
             )
         }
 
-        let playedCardsList = (<div id="playedCards"><div className="playedCards-list">{playedCards}</div></div>);
+        let playedCardsList = this.props.ctx.phase === 'bid' ? '' : (<div id="playedCards"><h2>Played Cards:</h2><div className="playedCards-list">{playedCards}</div></div>);
 
         let bidWindow = '';
         if (this.props.G.bidding) {
@@ -89,7 +89,7 @@ class SkullKingBoard extends React.Component {
         if (this.props.ctx.phase === 'endHand') {
             let winnerIndex = skCards.getWinner(this.props.G.board);
             let winner = this.props.G.board[winnerIndex].player;
-            winnerMessage = this.props.ctx.phase === 'endHand' ? this.props.G.players[winner].name + ' won this hand!' + (this.props.G.players[winner].roundBonus ? '  And got bonus points!' : '') : '';            
+            winnerMessage = this.props.ctx.phase === 'endHand' ? this.props.G.players[winner].name + ' won this hand!' + (this.props.G.players[winner].roundBonus ? ' And got bonus points!' : '') : '';            
         }
         let readyButton = this.props.ctx.phase === 'endHand' && this.props.ctx.currentPlayer === this.props.playerID ? (<button onClick={() => this.endHand()}>End Hand</button>) : '';
         return (
@@ -107,14 +107,11 @@ class SkullKingBoard extends React.Component {
                     </div>
                     <div className="rightColumn">
                         <div id="board">
-                            <h3>Played Cards:</h3>
-                            {winnerMessage}
+                            <h1>{winnerMessage}</h1>
                             {playedCardsList}
                             {readyButton}
                         </div>
-                        <div className="bidWindow">
-                            {bidWindow}
-                        </div>
+                        {bidWindow}
                         <div className="playerCardsWindow">
                             {playerHandWindow}
                         </div>
