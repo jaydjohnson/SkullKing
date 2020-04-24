@@ -13,26 +13,17 @@ class PlayerWindow extends React.Component {
         let playerList = [];
         let playerNames = [];
         for (let i = 0; i < this.props.players.length; i++) {
-            let nextPlayer = this.props.nextPlayer === i ? '*' : '';
             playerList.push(
-                // <tr 
-                //     key={i}
-                //     className={'player ' + ( parseInt(this.props.activePlayer) === i && ! this.props.bidding ? 'active' : '' )}
-                // >
-                    // <td>{this.props.players[i].name}{nextPlayer}</td>
-                    // <td>{this.props.players[i].score} ({this.props.players[i].potentialScore})</td>
-                    <td 
-                        key={i}
-                        className={( parseInt(this.props.activePlayer) === i && ! this.props.bidding ? 'active' : '' )}
-                    >
-                        {this.props.bidding ? '' : this.props.players[i].tricks + ' / '} 
-                        {this.props.bidding ? (this.props.players[i].currentBid === null ? '??' : '✓') : this.props.players[i].currentBid}
-                    </td>
-                    // <td>{this.props.players[i].tricks}</td>
-                // </tr>
+                <td 
+                    key={i}
+                    className={( parseInt(this.props.activePlayer) === i && ! this.props.bidding && this.props.phase !== 'endHand' ? 'active' : '' )}
+                >
+                    {this.props.bidding ? '' : this.props.players[i].tricks + ' / '} 
+                    {this.props.bidding ? (this.props.players[i].currentBid === null ? '??' : '✓') : this.props.players[i].currentBid}
+                </td>
             );
             playerNames.push(
-                <td key={i} className="playerNames">{'P' + (i + 1)}{nextPlayer}</td>
+                <td key={i} className="playerNames">{this.props.players[i].name}</td>
             );
         }
 

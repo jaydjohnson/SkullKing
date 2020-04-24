@@ -56,7 +56,7 @@ class PlayerHandWindow extends React.Component {
         }
 
         let playerHandList = (
-            <div id="playerCards" className={this.props.isActive && !this.props.bidding ? 'active-turn' : ''}>
+            <div id="playerCards" className={this.props.isActive && ! this.props.bidding && this.props.phase !== 'endHand' ? 'active-turn' : ''}>
                 <h3>Your Cards:</h3>
                 <div className="playerCards-list">{cards}</div>
             </div>)
