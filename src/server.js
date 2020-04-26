@@ -1,7 +1,7 @@
 const { Server } = require('boardgame.io/server');
-
+const SkullKing = require('./game.js').SkullKing;
 const server = Server({
-    games: [game1, game2],
+    games: [SkullKing],
 });
 
 server.run(8000);

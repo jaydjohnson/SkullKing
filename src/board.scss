@@ -14,7 +14,7 @@ table {
 }
 
 .bgio-client {
-    /*background: url('http://localhost:3000/img/background.jpg');*/
+    /* background: url('http://localhost:3000/img/background.jpg'); */
 }
 
 #gameWindow {
@@ -98,29 +98,41 @@ h1, h2, h3 {
 
 .card {
     margin: 5px;
-    padding: 5px;
     font-size: 12px;
-    width: 75px;
-    height: 100px;
-    border: 3px solid #aaa;
+    width: 150px;
+    height: 200px;
+    border: 2px solid rgb(223, 223, 223);
     background: #fff;
+    border-radius: 20px;
+    position: relative;
+
+    -moz-box-shadow: .2em .2em .5em #333;
+    -webkit-box-shadow: .2em .2em .5em #333;
+    box-shadow: .2em .2em .5em #333;
+
+    @for $i from 1 through 10 {
+        &:nth-child(#{$i+1}) {
+            left: #{$i * -100 / 1.50}px;
+            right: #{$i * -100 / 1.50}px;
+        }
+    }
+
+
+
+    img {
+        object-fit: contain;
+        max-width: 100%;
+        max-height: 100%;
+    }
 }
 
 .playerCards-list .card:hover {
     transform: scale(1.2);
+    z-index: 100;
 }
 
 .card.cardAllowed {
     border: 3px solid #007bff;
-}
-
-#tigres-window,
-#bid-window {
-    padding: 20px;
-    background: lightgrey;
-    text-align: center;
-    border-radius: 40px;
-    border: 4px solid grey;
 }
 
 button {
@@ -139,45 +151,44 @@ button:hover {
     cursor: pointer;
 }
 
-.tigres-options,
-.bid-list {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-}
-
-.tigresOption,
-.bidNumber {
-    margin: 5px;
+.tigresWindow {
+    width: 550px;
+    margin: 10px auto;
     padding: 20px;
+    background: lightgrey;
     text-align: center;
-    font-weight: bold;
-    font-size: 25px;
-    width: 25px;
-    height: 25px;
-    line-height: 25px;
-    border: 3px solid #aaa;
-    background: #fff;
-    border-radius: 10px;
-}
+    border-radius: 40px;
+    border: 4px solid grey;
 
-.tigresOption {
-    width: auto;
-}
+    &-options {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
 
-.tigresOption.selected,
-.bidNumber.selected {
-    background: lightgreen;
-}
+    .tigresOption {
+        margin: 5px;
+        padding: 20px;
+        text-align: center;
+        font-weight: bold;
+        font-size: 25px;
+        width: auto;
+        height: 25px;
+        line-height: 25px;
+        border: 3px solid #aaa;
+        background: #fff;
+        border-radius: 10px;
 
-.bidNumber.notselected {
-    display: none;
-}
+        &.selected {
+            background: lightgreen;
+        }
 
-.tigresOption:hover,
-.bidNumber:hover {
-    cursor: pointer;
-    background: rgb(48, 235, 63);
+        &:hover {
+            cursor: pointer;
+            background: rgb(48, 235, 63);
+        }
+    }
+    
 }
 
 .bidWindow {
@@ -188,6 +199,9 @@ button:hover {
         text-align: center;
         border-radius: 20px;
         border: 2px solid grey;
+        -moz-box-shadow: .2em .2em .5em #333;
+        -webkit-box-shadow: .2em .2em .5em #333;
+        box-shadow: .2em .2em .5em #333;
     }
 
     &-list {

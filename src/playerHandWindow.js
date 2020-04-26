@@ -43,13 +43,14 @@ class PlayerHandWindow extends React.Component {
         let cardAllowed = null;
         for (let i = 0; i < this.props.cards.length; i++) {
             cardAllowed = skCards.isCardAllowed(this.props.cards[i], this.props.cards, this.props.playedCards);
+            let cardImage = skCards.getCardImage(this.props.cards[i]);
             cards.push(
                 <div
                     key={i}
                     className={'card ' + (cardAllowed ? 'cardAllowed' : '')}
                     onClick={() => this.selectCard(i)}
                 >
-                    <img src="" onerror={() => this.style.display='none'} alt='card#'/>
+                    <img src={"/img/cards/" + cardImage + '.png'} alt='card#'/>
                     {this.props.cards[i].value + ' ' + this.props.cards[i].color}
                 </div>
             );

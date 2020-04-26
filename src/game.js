@@ -16,7 +16,7 @@ function DrawCard(G, ctx, player, deck) {
 }
 
 const SkullKing = {
-    name: 'Skull-King',
+    name: 'SkullKing',
 
     setup: (ctx) => ({ 
         round: 0,
@@ -67,7 +67,7 @@ const SkullKing = {
                     };
                 }
 
-                G.round = 0;
+                G.round = 9;
 
                 ctx.events.endPhase();
             },

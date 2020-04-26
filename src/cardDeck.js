@@ -59,13 +59,15 @@ export function SkullKingDeck() {
         { value: 0, color: 'white', },
         { value: 0, color: 'white', },
         { value: 0, color: 'white', },
-        { value: 20, color: 'red', },
-        { value: 20, color: 'red', },
-        { value: 20, color: 'red', },
-        { value: 20, color: 'red', },
-        { value: 20, color: 'red', },
-        { value: 20, color: 'tigres', },
-        { value: 25, color: 'skullking', },
+        { value: 0, color: 'white', },
+        { value: 0, color: 'white', },
+        { value: 20, color: 'red', img: 'pirate-1', },
+        { value: 20, color: 'red', img: 'pirate-2', },
+        { value: 20, color: 'red', img: 'pirate-3', },
+        { value: 20, color: 'red', img: 'pirate-4', },
+        { value: 20, color: 'red', img: 'pirate-5', },
+        { value: 20, color: 'tigres', img: 'tigres', },
+        { value: 25, color: 'skullking', img: 'skullking', },
         
     ];
 }
@@ -104,6 +106,14 @@ export function sortHand(hand) {
         let bIndex = cardIndex(b);
         return aIndex-bIndex;
     });
+}
+
+export function getCardImage(card) {
+    if (card.img !== undefined) {
+        return card.img;
+    }
+
+    return card.color + '-' + card.value;
 }
 
 export function getWinner(cards) {
@@ -171,7 +181,7 @@ export function isCardAllowed(card, playerCards, playedCards) {
     let currentSuit = getCurrentSuit(playedCards);
     let playerHasCurrentSuit = hasCurrentSuit(playerCards, currentSuit);
 
-    if (['skullking', 'tirges', 'red', 'white'].includes(card.color)) {
+    if (['skullking', 'tigres', 'red', 'white'].includes(card.color)) {
         return true;
     }
 
