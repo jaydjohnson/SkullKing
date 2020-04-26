@@ -18,17 +18,13 @@ class ScoreBoardWindow extends React.Component {
                     key={i}
                     className={( parseInt(this.props.activePlayer) === i && ! this.props.bidding && this.props.phase !== 'endHand' ? 'active' : '' )}
                 >
-                    {this.props.bidding ? '' : this.props.players[i].tricks + '/'} 
                     {this.props.bidding ? (this.props.players[i].currentBid === null ? '??' : '✓') : this.props.players[i].currentBid}
+                    {this.props.bidding ? '' : '/' + this.props.players[i].tricks}
                 </td>
             );
             playerNames.push(
                 <td key={i} className="playerNames">{this.props.players[i].name}</td>
             );
-        }
-
-        if (this.props.phase === 'endHand') {
-            bidList = Array(this.props.players.length).fill(<td></td>);
         }
 
         let scoreList = [];

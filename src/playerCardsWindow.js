@@ -2,7 +2,7 @@ import React from 'react';
 import * as skCards from "./cardDeck";
 import TigresWindow from './tigresWindow';
 
-class PlayerHandWindow extends React.Component {
+class PlayerCardsWindow extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -33,6 +33,8 @@ class PlayerHandWindow extends React.Component {
 
     render() {
 
+        let activeTurn = this.props.isActive && !this.props.bidding && this.props.phase !== 'endHand';
+        
         let tigresWindow = this.state.chooseTigresValue && this.props.isActive ? (
             <TigresWindow
                 onClick={this.handleSelectTigresValue}
@@ -47,30 +49,24 @@ class PlayerHandWindow extends React.Component {
             cards.push(
                 <div
                     key={i}
-                    className={'card ' + (cardAllowed ? 'cardAllowed' : '')}
+                    className={'card ' + (cardAllowed && activeTurn ? 'cardAllowed' : '')}
                     onClick={() => this.selectCard(i)}
                 >
                     <img src={"/img/cards/" + cardImage + '.png'} alt='card#'/>
-                    {this.props.cards[i].value + ' ' + this.props.cards[i].color}
                 </div>
             );
         }
 
-        let playerHandList = (
-            <div id="playerCards" className={this.props.isActive && ! this.props.bidding && this.props.phase !== 'endHand' ? 'active-turn' : ''}>
-                <h3>Your Cards:</h3>
-                <div className="playerCards-list">{cards}</div>
-            </div>)
-        ;
-
-
         return (
-            <div className="playerHand">
+            <div className="playerCardsWindow">
+                <h3>Yer Cards{activeTurn ? ' and it be yer turn!' : ''}:</h3>
                 {tigresWindow}
-                {playerHandList}
+                <div className="playerCardsWindow-cards">
+                    {cards}
+                </div>
             </div>
         )
     }
 }
 
-export default PlayerHandWindow;
+export default PlayerCardsWindow;

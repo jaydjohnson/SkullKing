@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 import './board.scss';
 import BidWindow from './bidWindow.js';
 import ScoreBoardWindow from './scoreBoardWindow';
-import PlayerHandWindow from './playerHandWindow';
+import PlayerCardsWindow from './playerCardsWindow';
 import * as skCards from "./cardDeck";
+import * as scoring from "./scoring";
+import PlayedCardsWindow from './playedCardsWindow';
 
 class SkullKingBoard extends React.Component {
     static propTypes = {
@@ -34,24 +36,13 @@ class SkullKingBoard extends React.Component {
     }
 
     render() {
-        let playedCards = [];
-
-        for (let i = 0; i < this.props.G.board.length; i++) {
-            playedCards.push(
-                <div key={'card'+i}>
-                    <div
-                        className='card'
-                    >
-                        {this.props.G.board[i].card.value + ' ' + this.props.G.board[i].card.color}
-                    </div>
-                    <div>
-                        {this.props.G.players[this.props.G.board[i].player].name}
-                    </div>
-                </div>
-            )
-        }
-
-        let playedCardsList = this.props.ctx.phase === 'bid' ? '' : (<div id="playedCards"><h2>Played Cards:</h2><div className="playedCards-list">{playedCards}</div></div>);
+        let playedCardsWindow = (
+            <PlayedCardsWindow
+                cards={this.props.G.board}
+                players={this.props.G.players}
+                phase={this.props.ctx.phase}
+            />
+        );
 
         let bidWindow = '';
         if (this.props.G.bidding) {
@@ -63,8 +54,8 @@ class SkullKingBoard extends React.Component {
             />);
         }
 
-        let playerHandWindow = (
-            <PlayerHandWindow
+        let playerCardsWindow = (
+            <PlayerCardsWindow
                 cards={this.props.G.players[this.props.playerID].hand}
                 playedCards={this.props.G.board}
                 bidding={this.props.G.bidding}
@@ -72,7 +63,8 @@ class SkullKingBoard extends React.Component {
                 onSelectCard={this.handleSelectCard}
                 phase={this.props.ctx.phase}
             />
-        )
+        );
+
         let scoreBoardWindow = (
             <ScoreBoardWindow
                 players={this.props.G.players}
@@ -89,7 +81,11 @@ class SkullKingBoard extends React.Component {
         if (this.props.ctx.phase === 'endHand') {
             let winnerIndex = skCards.getWinner(this.props.G.board);
             let winner = this.props.G.board[winnerIndex].player;
-            winnerMessage = this.props.ctx.phase === 'endHand' ? this.props.G.players[winner].name + ' won this hand!' + (this.props.G.players[winner].roundBonus ? ' And got bonus points!' : '') : '';            
+            let roundBonus = 0;
+            if (this.props.G.players[winner].currentBid > 0) {
+                roundBonus = scoring.getRoundBonus(winner, this.props.G.board);
+            }
+            winnerMessage = this.props.ctx.phase === 'endHand' ? this.props.G.players[winner].name + ' won this hand!' + (roundBonus > 0 ? ' And got ' + roundBonus + ' bonus points!' : '') : '';            
         }
         let readyButton = this.props.ctx.phase === 'endHand' && this.props.ctx.currentPlayer === this.props.playerID ? (<button onClick={() => this.endHand()}>End Hand</button>) : '';
         return (
@@ -98,7 +94,7 @@ class SkullKingBoard extends React.Component {
                     <h1>Skull King</h1>
                     <div className="header-info">
                         Round: {this.props.G.round}<br />
-                        Current Player: {this.props.G.players[this.props.ctx.currentPlayer].longName}
+                        Dealer: {this.props.G.players[this.props.G.dealer].longName}
                     </div>
                 </div>
                 <div className="gameContent">
@@ -108,13 +104,11 @@ class SkullKingBoard extends React.Component {
                     <div className="rightColumn">
                         <div id="board">
                             <h1>{winnerMessage}</h1>
-                            {playedCardsList}
+                            {playedCardsWindow}
                             {readyButton}
                         </div>
                         {bidWindow}
-                        <div className="playerCardsWindow">
-                            {playerHandWindow}
-                        </div>
+                        {playerCardsWindow}
                     </div>                    
                 </div>
             </div>

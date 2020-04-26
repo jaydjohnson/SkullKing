@@ -67,7 +67,7 @@ const SkullKing = {
                     };
                 }
 
-                G.round = 9;
+                G.round = 0;
 
                 ctx.events.endPhase();
             },
@@ -185,7 +185,6 @@ const SkullKing = {
                     G.players = scores.getRoundScores(G.players, G.round);
                     G.scores.push(G.players);
                 }
-                console.log('Setting ENDING HAND!?!??!');
             },
 
             endIf: (G, ctx) => {
