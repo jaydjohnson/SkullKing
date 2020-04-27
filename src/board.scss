@@ -14,7 +14,8 @@ table {
 }
 
 .bgio-client {
-    /* background: url('http://localhost:3000/img/background.jpg'); */
+    background: url('/img/background2.jpg');
+    background-size: cover;
 }
 
 #gameWindow {
@@ -27,7 +28,7 @@ table {
 
 .header {
     height: 60px;
-    background-color: rgb(172, 150, 56);
+    background-color: #f3d7636b;
 
     h1 {
         margin: 0 20px;
@@ -114,12 +115,7 @@ h1, h2, h3 {
     -webkit-box-shadow: .2em .2em .5em #333;
     box-shadow: .2em .2em .5em #333;
 
-    @for $i from 1 through 10 {
-        &:nth-child(#{$i+1}) {
-            left: #{$i * -100 / 1.50}px;
-            right: #{$i * -100 / 1.50}px;
-        }
-    }
+
 
     img {
         object-fit: contain;
