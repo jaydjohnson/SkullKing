@@ -15,7 +15,7 @@ function DrawCard(G, ctx, player, deck) {
     G.players[player].hand.push(deck.shift())
 }
 
-const SkullKing = {
+export const SkullKing = {
     name: 'SkullKing',
 
     setup: (ctx) => ({ 
@@ -221,5 +221,3 @@ const SkullKing = {
 
     },
 };
-
-export default SkullKing;

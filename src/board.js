@@ -8,7 +8,7 @@ import * as skCards from "./cardDeck";
 import * as scoring from "./scoring";
 import PlayedCardsWindow from './playedCardsWindow';
 
-class SkullKingBoard extends React.Component {
+export class SkullKingBoard extends React.Component {
     static propTypes = {
         G: PropTypes.any.isRequired,
         ctx: PropTypes.any.isRequired,
@@ -19,7 +19,6 @@ class SkullKingBoard extends React.Component {
     }
 
     endHand() {
-        console.log('end?', this.props.playerID);
         this.props.moves.confirmReady();
     }
 
