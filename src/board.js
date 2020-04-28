@@ -99,9 +99,6 @@ class SkullKingBoard extends React.Component {
                 </div>
                 <div className="gameContent">
                     <div className="leftColumn">
-                        {scoreBoardWindow}
-                    </div>
-                    <div className="rightColumn">
                         <div id="board">
                             <h1>{winnerMessage}</h1>
                             {playedCardsWindow}
@@ -109,7 +106,10 @@ class SkullKingBoard extends React.Component {
                         </div>
                         {bidWindow}
                         {playerCardsWindow}
-                    </div>                    
+                    </div>    
+                    <div className="rightColumn">
+                        {scoreBoardWindow}
+                    </div>
                 </div>
             </div>
         );
