@@ -31,6 +31,10 @@ class PlayerCardsWindow extends React.Component {
         this.setState({selectedTigresValue: null, chooseTigresValue: false});
     }
 
+    handleTigresClose = () => {
+        this.setState({selectedTigresValue: null, chooseTigresValue: false});
+    }
+
     getNumber = () => {
         return ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'][this.props.cards.length-1];
     }
@@ -42,6 +46,7 @@ class PlayerCardsWindow extends React.Component {
         let tigresWindow = this.state.chooseTigresValue && this.props.isActive ? (
             <TigresWindow
                 onClick={this.handleSelectTigresValue}
+                onClose={this.handleTigresClose}
             />
         ) : '';
 

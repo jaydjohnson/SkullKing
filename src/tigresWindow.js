@@ -42,7 +42,12 @@ class TigresWindow extends React.Component {
             </div>
         );
 
-        let optionButton = this.state.confirmedOption ? '' : (<button onClick={this.confirmOption}>Arrrh!</button>);
+        let optionButton = this.state.confirmedOption ? '' : (
+            <div>
+                <button onClick={this.confirmOption}>Avast!</button>
+                <button onClick={this.props.onClose}>ne'er mind</button>
+            </div>
+        );
 
         return (
             <div className="tigresWindow">
