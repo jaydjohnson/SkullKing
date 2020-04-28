@@ -31,6 +31,10 @@ class PlayerCardsWindow extends React.Component {
         this.setState({selectedTigresValue: null, chooseTigresValue: false});
     }
 
+    getNumber = () => {
+        return ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'][this.props.cards.length-1];
+    }
+
     render() {
 
         let activeTurn = this.props.isActive && !this.props.bidding && this.props.phase !== 'endHand';
@@ -61,7 +65,7 @@ class PlayerCardsWindow extends React.Component {
             <div className="playerCardsWindow">
                 <h3>Yer Cards{activeTurn ? ' and it be yer turn!' : ''}:</h3>
                 {tigresWindow}
-                <div className="playerCardsWindow-cards">
+                <div className={"playerCardsWindow-cards " + this.getNumber() }>
                     {cards}
                 </div>
             </div>

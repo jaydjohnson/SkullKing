@@ -97,13 +97,8 @@ h1, h2, h3 {
     background: lightgreen;
 }
 
-.playerCards-list {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-}
-
 .card {
+    cursor: pointer;
     margin: 5px;
     font-size: 12px;
     width: 150px;
@@ -117,8 +112,6 @@ h1, h2, h3 {
     -webkit-box-shadow: .2em .2em .5em #333;
     box-shadow: .2em .2em .5em #333;
 
-
-
     img {
         object-fit: contain;
         max-height: 100%;
@@ -126,9 +119,70 @@ h1, h2, h3 {
 }
 
 .playerCardsWindow-cards .card:hover {
-    transform: scale(1.2);
+    transform: scale(1.2) !important;
     z-index: 100;
 }
+
+.playerCardsWindow-cards {
+    &.five {
+        .card:nth-child(1) { left: 100px; transform: rotate(-15deg) translateY(20px); }
+        .card:nth-child(2) { left: 50px; transform: rotate(-5deg); }
+        .card:nth-child(3) { left: 0px; }
+        .card:nth-child(4) { left: -50px; transform: rotate(5deg); }
+        .card:nth-child(5) { left: -100px; transform: rotate(15deg) translateY(20px); }
+    }
+    &.six {
+        .card:nth-child(1) { left: 250px; }
+        .card:nth-child(2) { left: 150px; }
+        .card:nth-child(3) { left: 50px; }
+        .card:nth-child(4) { left: -50px; }
+        .card:nth-child(5) { left: -150px; }
+        .card:nth-child(6) { left: -250px; }
+    }
+    &.seven {
+        .card:nth-child(1) { left: 300px; }
+        .card:nth-child(2) { left: 200px; }
+        .card:nth-child(3) { left: 100px; }
+        .card:nth-child(4) { left: 0px; }
+        .card:nth-child(5) { left: -100px; }
+        .card:nth-child(6) { left: -200px; }
+        .card:nth-child(7) { left: -300px; }
+    }
+    &.eight {
+        .card:nth-child(1) { left: 350px; }
+        .card:nth-child(2) { left: 250px; }
+        .card:nth-child(3) { left: 150px; }
+        .card:nth-child(4) { left: 50px; }
+        .card:nth-child(5) { left: -50px; }
+        .card:nth-child(6) { left: -150px; }
+        .card:nth-child(7) { left: -250px; }
+        .card:nth-child(8) { left: -350px; }
+    }
+    &.nine {
+        .card:nth-child(1) { left: 400px; }
+        .card:nth-child(2) { left: 300px; }
+        .card:nth-child(3) { left: 200px; }
+        .card:nth-child(4) { left: 100px; }
+        .card:nth-child(5) { left: 0px; }
+        .card:nth-child(6) { left: -100px; }
+        .card:nth-child(7) { left: -200px; }
+        .card:nth-child(8) { left: -300px; }
+        .card:nth-child(9) { left: -400px; }
+    }
+    &.ten {
+        .card:nth-child(1) { left: 450px; }
+        .card:nth-child(2) { left: 350px; }
+        .card:nth-child(3) { left: 250px; }
+        .card:nth-child(4) { left: 150px; }
+        .card:nth-child(5) { left: 50px; }
+        .card:nth-child(6) { left: -50px; }
+        .card:nth-child(7) { left: -150px; }
+        .card:nth-child(8) { left: -250px; }
+        .card:nth-child(9) { left: -350px; }
+        .card:nth-child(10) { left: -450px; }
+    }
+}
+
 
 button {
     cursor: pointer;
