@@ -24,6 +24,7 @@ table {
     font-family: 'IM Fell English SC', serif;
     font-family: 'MyWebFont', serif;
     font-size: 1.5em;
+    height: 100vh;
 }
 
 .header {
@@ -44,21 +45,22 @@ table {
 .gameContent {
     display: flex;
     flex-direction: row;
+    height: 100%;
 
-    .leftColumn {
+    .rightColumn {
         width: 20%;
     }
-    .rightColumn {
+    .leftColumn {
         width: 80%;
         display: flex;
         flex-direction: column;
-        height: 80vh;
         justify-content: space-between;
     }
 }
 
 h1, h2, h3 {
     margin: 0;
+    text-shadow: 0 0 4px gold;
 }
 
 #board,
@@ -95,13 +97,8 @@ h1, h2, h3 {
     background: lightgreen;
 }
 
-.playerCards-list {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-}
-
 .card {
+    cursor: pointer;
     margin: 5px;
     font-size: 12px;
     width: 150px;
@@ -115,8 +112,6 @@ h1, h2, h3 {
     -webkit-box-shadow: .2em .2em .5em #333;
     box-shadow: .2em .2em .5em #333;
 
-
-
     img {
         object-fit: contain;
         max-height: 100%;
@@ -124,24 +119,96 @@ h1, h2, h3 {
 }
 
 .playerCardsWindow-cards .card:hover {
-    transform: scale(1.2);
+    transform: scale(1.2) !important;
     z-index: 100;
 }
 
+.playerCardsWindow-cards {
+    &.five {
+        .card:nth-child(1) { left: 100px; transform: rotate(-15deg) translateY(20px); }
+        .card:nth-child(2) { left: 50px; transform: rotate(-5deg); }
+        .card:nth-child(3) { left: 0px; }
+        .card:nth-child(4) { left: -50px; transform: rotate(5deg); }
+        .card:nth-child(5) { left: -100px; transform: rotate(15deg) translateY(20px); }
+    }
+    &.six {
+        .card:nth-child(1) { left: 250px; }
+        .card:nth-child(2) { left: 150px; }
+        .card:nth-child(3) { left: 50px; }
+        .card:nth-child(4) { left: -50px; }
+        .card:nth-child(5) { left: -150px; }
+        .card:nth-child(6) { left: -250px; }
+    }
+    &.seven {
+        .card:nth-child(1) { left: 300px; }
+        .card:nth-child(2) { left: 200px; }
+        .card:nth-child(3) { left: 100px; }
+        .card:nth-child(4) { left: 0px; }
+        .card:nth-child(5) { left: -100px; }
+        .card:nth-child(6) { left: -200px; }
+        .card:nth-child(7) { left: -300px; }
+    }
+    &.eight {
+        .card:nth-child(1) { left: 350px; }
+        .card:nth-child(2) { left: 250px; }
+        .card:nth-child(3) { left: 150px; }
+        .card:nth-child(4) { left: 50px; }
+        .card:nth-child(5) { left: -50px; }
+        .card:nth-child(6) { left: -150px; }
+        .card:nth-child(7) { left: -250px; }
+        .card:nth-child(8) { left: -350px; }
+    }
+    &.nine {
+        .card:nth-child(1) { left: 400px; }
+        .card:nth-child(2) { left: 300px; }
+        .card:nth-child(3) { left: 200px; }
+        .card:nth-child(4) { left: 100px; }
+        .card:nth-child(5) { left: 0px; }
+        .card:nth-child(6) { left: -100px; }
+        .card:nth-child(7) { left: -200px; }
+        .card:nth-child(8) { left: -300px; }
+        .card:nth-child(9) { left: -400px; }
+    }
+    &.ten {
+        .card:nth-child(1) { left: 450px; }
+        .card:nth-child(2) { left: 350px; }
+        .card:nth-child(3) { left: 250px; }
+        .card:nth-child(4) { left: 150px; }
+        .card:nth-child(5) { left: 50px; }
+        .card:nth-child(6) { left: -50px; }
+        .card:nth-child(7) { left: -150px; }
+        .card:nth-child(8) { left: -250px; }
+        .card:nth-child(9) { left: -350px; }
+        .card:nth-child(10) { left: -450px; }
+    }
+}
+
+
 button {
+    cursor: pointer;
     font-family: 'MyWebFont', serif;
-    margin: 20px auto 10px;
+    margin: 20px 10px 10px;
     font-size: 1em;
     padding: 10px 20px;
     color: white;
-    background-color: #007bff;
+    background: rgb(0,123,255);
+    background: linear-gradient(0deg, rgba(0,17,128,1) 0%, rgba(0,123,255,1) 100%);
     border: 1px solid #007bff;
     border-radius: 40px;
-}
+    align-self: center;
+    width: auto;
+    -moz-box-shadow: .2em .2em .5em #333;
+    -webkit-box-shadow: .2em .2em .5em #333;
+    box-shadow: .2em .2em .5em #333;
 
-button:hover {
-    background-color: #0369d6;
-    cursor: pointer;
+    &:hover {
+        color: gold;
+    }
+
+    &:active {
+        background-color: #0369d6;
+        transform: translateY(2px);
+    }
 }
 
 .playerCardsWindow {
@@ -231,17 +298,21 @@ button:hover {
         width: 20px;
         height: 20px;
         line-height: 20px;
-        border: 2px solid #aaa;
-        background: #fff;
-        border-radius: 10px;
+        border: 2px solid silver;
+        background: radial-gradient(silver, white);
+        border-radius: 50px;
+        -moz-box-shadow: .2em .2em .5em #333;
+        -webkit-box-shadow: .2em .2em .5em #333;
+        box-shadow: .2em .2em .5em #333;
 
         &:hover {
             cursor: pointer;
-            background: rgb(48, 235, 63);
+            background: radial-gradient(gold, yellow);
         }
 
         &.selected {
-            background: lightgreen;
+            background: radial-gradient(yellow, gold);
+            border: 2px solid gold;
         }
 
         &.notselected {
