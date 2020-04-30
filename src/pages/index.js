@@ -1,7 +1,7 @@
 import React from 'react';
 import Axios from 'axios';
 import Select from 'react-select';
-import { BrowserRouter as Router, Switch, Route, Link, useRouteMatch, useParams } from 'react-router-dom';
+import { Redirect } from 'react-router-dom'
 import './index.scss';
 
 const options = [
@@ -18,16 +18,37 @@ class IndexPage extends React.Component {
         super(props);
 
         this.state = {
+            redirect: false,
+            redirectURL: null,
             rooms: [],
             playerID: null,
             playerName: localStorage.getItem('playerName') || '',
-            playerCredentials: [],
+            playerCredentials: JSON.parse(localStorage.getItem('playerCredentials')) || '',
             numberPlayers: null,
         }
     }
 
     componentDidMount() {
         this.refreshRooms();
+        this.interval = setInterval(()=> this.refreshRooms(), 5000);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.interval);
+    }
+
+    syncLocalRooms = () => {
+        if (this.state.rooms.length === 0) {
+            this.setState({playerCredentials: [] });
+            localStorage.setItem('playerCredentials', this.state.playerCredentials);
+        }
+        // console.log(Object.keys(this.state.playerCredentials));
+        // let syncRooms = this.state.playerCredentials.map((pc, i) => {
+        //     console.log(i, pc);
+        //     return i in this.state.rooms;
+        // });
+        // console.log(syncRooms);
+        // console.log("SFImxoDfn" in this.state.playerCredentials);
     }
 
     refreshRooms = () => {
@@ -36,7 +57,7 @@ class IndexPage extends React.Component {
                 this.setState({
                     rooms: response.data.rooms,
                 });
-                console.log(response.data.rooms);
+                this.syncLocalRooms();
             });
     }
 
@@ -46,7 +67,6 @@ class IndexPage extends React.Component {
 
     handleSelectNumberPlayers = (numberPlayers) => {
         this.setState({ numberPlayers });
-        console.log('option seected: ', numberPlayers);
     }
 
     confirmName = () => {
@@ -55,21 +75,19 @@ class IndexPage extends React.Component {
 
     joinRoom = (room, playerID) => {
         let nextPlayerID = room.players.findIndex((player) => { return player.name === undefined});
-        // let newCredentials = this.state.playerCredentials.slice();
         Axios.post('http://localhost:8001/games/SkullKing/'+ room.gameID + '/join', {
             playerID: nextPlayerID,
             playerName: this.state.playerName,
         }).then((response) => {
             let newCredentials = {
-                ...this.stateplayerCredentials,
-                ... {
+                ...this.state.playerCredentials,
+                ...{
                     [room.gameID]: {
                         playerID: nextPlayerID,
                         playerCredentials: response.data.playerCredentials,
                     }
                 }
             };
-            console.log(newCredentials);
             this.setState({
                 playerCredentials: newCredentials,
             });
@@ -78,9 +96,18 @@ class IndexPage extends React.Component {
         });
     }
 
-    // leaveRoom = () => {
-
-    // }
+    leaveRoom = (room) => {
+        Axios.post('http://localhost:8001/games/SkullKing/'+ room.gameID + '/leave', {
+            playerID: this.state.playerCredentials[room.gameID].playerID,
+            credentials: this.state.playerCredentials[room.gameID].playerCredentials,
+        }).then((response) => {
+            let newCredentials = {...this.state.playerCredentials};
+            delete newCredentials[room.gameID];
+            localStorage.setItem('playerCredentials', JSON.stringify(newCredentials));
+            this.setState({ playerCredentials: newCredentials });
+            this.refreshRooms();
+        });
+    }
 
     createRoom = () => {
         Axios.post('http://localhost:8001/games/SkullKing/create', {
@@ -90,18 +117,37 @@ class IndexPage extends React.Component {
         });
     }
 
+    setRedirect = (room) => {
+        this.setState({redirect: true, redirectURL: room.gameID});
+    }
+
+    renderRedirect = () => {
+        if (this.state.redirect) {
+            return <Redirect to={'/game/' + this.state.redirectURL} />
+        }
+    }
+
     render() {
 
         const { numberPlayers } = this.state;
 
         let rooms = this.state.rooms.map( (room, i) => {
+            let isEmpty = room.players.findIndex((player) => { return player.name === undefined});
             let players = room.players.map( (player, k) => {
                 return (<li key={k}>{player.name}</li>);
             });
-            return (<div key={i}>{room.gameID} {players} <button onClick={() => this.joinRoom(room, room.players.length)}>Join</button><button onClick={() => this.leaveRoom(room, room.players.length)}>Leave</button></div>);
+            return (
+                <div key={i}>
+                    {room.gameID}
+                    {players}
+                    {room.gameID in this.state.playerCredentials ? (<button onClick={() => this.leaveRoom(room)}>Leave</button>) : (<button onClick={() => this.joinRoom(room, room.players.length)}>Join</button>) }
+                    {isEmpty === -1 ? (<button onClick={() => this.setRedirect(room)}>Play</button>) : ''}
+                </div>
+            );
         });
         return (
             <div id="gameWindow">
+                {this.renderRedirect()}
                 <div className="header">
                     <h1>Skull King</h1>
                 </div>

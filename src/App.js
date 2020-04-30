@@ -6,8 +6,6 @@ import { SocketIO } from 'boardgame.io/multiplayer';
 import { SkullKing } from './game';
 import { SkullKingBoard } from './board';
 import IndexPage from './pages/index';
-import Axios from 'axios';
-
 
 const SkullKingClient = Client({
     game: SkullKing,
@@ -22,9 +20,10 @@ const App = () => (
             {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
             <Switch>
-                <Route path="/play">
+                <Route path="/game">
+                    <PlayGame />
                     <div>
-                        <SkullKingClient playerID="0" gameID="" />
+                        {/* <SkullKingClient playerID="0" gameID="" /> */}
                     </div>
                 </Route>
                 <Route path="/create">
@@ -41,7 +40,6 @@ const App = () => (
                             </li>
                         </ul>
                     </nav>
-                    <CreateRoom />
                 </Route>
                 <Route path="/">
                     <IndexPage />
@@ -51,35 +49,14 @@ const App = () => (
     </Router>
 );
 
-function Home() {
-    return <h2>Home</h2>;
-}
-
-function CreateRoom() {
+function PlayGame() {
     let match = useRouteMatch();
-    let rooms = null;
 
-    rooms = Axios.get('http://localhost:8001/games/SkullKing')
-        .then(function (response) {
-            return response.data.rooms;
-        })
-        .catch(function (error) {
-            console.log(error);
-        })
-        .then(function() {
-            console.log('thened');
-        });
-
-    console.log(rooms);
     return (
         <div>
-            <h2>Create Game</h2>
-            <p>Choose Number of players</p>
-            <Link to="/create/1234">Play</Link>
-
             <Switch>
-                <Route path={`${match.path}/:topicId`}>
-                    <Topic />
+                <Route path={`${match.path}/:gameID`}>
+                    <LoadGame />
                 </Route>
                 <Route path={match.path}>
                     <h3>Please select a topic.</h3>
@@ -89,9 +66,13 @@ function CreateRoom() {
     );
 }
 
-function Topic() {
-    let { topicId } = useParams();
-    return <h3>Requested topic ID: {topicId}</h3>;
+function LoadGame() {
+    let { gameID } = useParams();
+    let playerCredentials = JSON.parse(localStorage.getItem('playerCredentials'));
+    let playerID = playerCredentials[gameID].playerID;
+    let credentials = playerCredentials[gameID].playerCredentials;
+    console.log('playerid', playerID);
+    return <SkullKingClient playerID={playerID.toString()} gameID={gameID.toString()} credentials={credentials} debug={false}/>;
 }
 
 export default App;
