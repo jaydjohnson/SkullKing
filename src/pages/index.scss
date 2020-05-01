@@ -1,4 +1,22 @@
+#gameWindow {
+    display: flex;
+    flex-direction: column;
+    font-size: 1.5em;
+    height: 100vh;
+
+    background: url('/img/background2.jpg');
+    background-size: cover;
+}
+
 .gameWindow-content {
+    margin: 20px;
+
+    input {
+        width: 200px;
+        height: 43px;
+        font-size: 1.5em;
+    }
+
     .playerSelect {
         width: 200px;
     }

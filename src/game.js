@@ -218,6 +218,5 @@ export const SkullKing = {
         if (G.round > 10) {
             return true;
         }
-
     },
 };

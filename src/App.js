@@ -7,10 +7,13 @@ import { SkullKing } from './game';
 import { SkullKingBoard } from './board';
 import IndexPage from './pages/index';
 
+const serverHost = 'http://192.168.1.4:8000';
+const lobbyHost = 'http://192.168.1.4:8001';
+
 const SkullKingClient = Client({
     game: SkullKing,
     board: SkullKingBoard,
-    multiplayer: SocketIO({ server: 'localhost:8000' }),
+    multiplayer: SocketIO({ server: serverHost }),
 });
 
 const App = () => (
@@ -42,7 +45,7 @@ const App = () => (
                     </nav>
                 </Route>
                 <Route path="/">
-                    <IndexPage />
+                    <IndexPage serverHost={serverHost} lobbyHost={lobbyHost} />
                 </Route>
             </Switch>
         </div>
@@ -72,7 +75,7 @@ function LoadGame() {
     let playerID = playerCredentials[gameID].playerID;
     let credentials = playerCredentials[gameID].playerCredentials;
     console.log('playerid', playerID);
-    return <SkullKingClient playerID={playerID.toString()} gameID={gameID.toString()} credentials={credentials} debug={false}/>;
+    return <SkullKingClient playerID={playerID.toString()} gameID={gameID.toString()} credentials={credentials} debug1={false}/>;
 }
 
 export default App;

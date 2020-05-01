@@ -23,8 +23,9 @@ class IndexPage extends React.Component {
             rooms: [],
             playerID: null,
             playerName: localStorage.getItem('playerName') || '',
-            playerCredentials: JSON.parse(localStorage.getItem('playerCredentials')) || '',
+            playerCredentials: JSON.parse(localStorage.getItem('playerCredentials')) || [],
             numberPlayers: null,
+            tempName: localStorage.getItem('playerName') || '',
         }
     }
 
@@ -52,7 +53,7 @@ class IndexPage extends React.Component {
     }
 
     refreshRooms = () => {
-        Axios.get('http://localhost:8001/games/SkullKing')
+        Axios.get(this.props.lobbyHost + '/games/SkullKing')
             .then((response) => {
                 this.setState({
                     rooms: response.data.rooms,
@@ -62,7 +63,7 @@ class IndexPage extends React.Component {
     }
 
     handleChangeName = (event) => {
-        this.setState({playerName: event.target.value});
+        this.setState({tempName: event.target.value});
     }
 
     handleSelectNumberPlayers = (numberPlayers) => {
@@ -70,12 +71,13 @@ class IndexPage extends React.Component {
     }
 
     confirmName = () => {
-        localStorage.setItem('playerName', this.state.playerName);
+        this.setState({playerName: this.state.tempName})
+        localStorage.setItem('playerName', this.state.tempName);
     }
 
     joinRoom = (room, playerID) => {
         let nextPlayerID = room.players.findIndex((player) => { return player.name === undefined});
-        Axios.post('http://localhost:8001/games/SkullKing/'+ room.gameID + '/join', {
+        Axios.post(this.props.lobbyHost + '/games/SkullKing/'+ room.gameID + '/join', {
             playerID: nextPlayerID,
             playerName: this.state.playerName,
         }).then((response) => {
@@ -97,7 +99,7 @@ class IndexPage extends React.Component {
     }
 
     leaveRoom = (room) => {
-        Axios.post('http://localhost:8001/games/SkullKing/'+ room.gameID + '/leave', {
+        Axios.post(this.props.lobbyHost + '/games/SkullKing/'+ room.gameID + '/leave', {
             playerID: this.state.playerCredentials[room.gameID].playerID,
             credentials: this.state.playerCredentials[room.gameID].playerCredentials,
         }).then((response) => {
@@ -110,7 +112,7 @@ class IndexPage extends React.Component {
     }
 
     createRoom = () => {
-        Axios.post('http://localhost:8001/games/SkullKing/create', {
+        Axios.post(this.props.lobbyHost + '/games/SkullKing/create', {
             numPlayers: this.state.numberPlayers.value,
         }).then((response) => {
             this.refreshRooms();
@@ -152,7 +154,7 @@ class IndexPage extends React.Component {
                     <h1>Skull King</h1>
                 </div>
                 <div className="gameWindow-content">
-                    <input type="text" value={this.state.playerName} onChange={this.handleChangeName} />
+                    <input type="text" value={this.state.tempName} onChange={this.handleChangeName} />
                     <button onClick={this.confirmName}>Set Name</button> 
                     {this.state.playerName ? (<p>Welcome {this.state.playerName}</p>) : ''}
                     <Select

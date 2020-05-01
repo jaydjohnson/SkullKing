@@ -35,6 +35,16 @@ export class SkullKingBoard extends React.Component {
         this.props.moves.selectBidAmount(bid);
     }
 
+    getScores = () => {
+        let sortedWinners = this.props.G.players.sort((a, b) => {
+            return b.score - a.score;
+        });
+        let winners = sortedWinners.map((winner, i) => {
+            return (<li key={i}>{this.props.gameMetadata[winner.playerIndex].name} - {winner.score} </li>);
+        })
+        return (<ul>{winners}</ul>);
+    }
+
     render() {
         let playedCardsWindow = (
             <PlayedCardsWindow
@@ -93,27 +103,37 @@ export class SkullKingBoard extends React.Component {
 
         let playerNames = [];
         this.props.gameMetadata.filter((player, i) => {
-            playerNames.push(<span key={i}>{'player' + player.name}</span>);
+            return playerNames.push(<span key={i}>{'player' + player.name}</span>);
         });
         return (
             <div id="gameWindow">
                 <div className="header">
-                    <h1>Skull King</h1>
+                    <h1>Skull King </h1>
                     <div className="header-info">
                         Round: {this.props.G.round}<br />
-                        Dealer: {this.props.G.players[this.props.G.dealer].longName}
+                        Dealer: {this.props.gameMetadata[this.props.G.dealer].name}
                     </div>
                 </div>
                 <div className="gameContent">
-                    <div className="leftColumn">
-                        <div id="board">
-                            <h1>{winnerMessage}</h1>
-                            {playedCardsWindow}
-                            {readyButton}
+                    {this.props.ctx.gameover ? 
+                    (
+                        <div className="leftColumn">
+                            <div className="winnerWindow">
+                                <h2>Game Over</h2>
+                                {this.getScores()}
+                            </div>
                         </div>
-                        {bidWindow}
-                        {playerCardsWindow}
-                    </div>    
+                    ) : (
+                        <div className="leftColumn">
+                            <div id="board">
+                                <h1>{ winnerMessage }</h1>
+                                {playedCardsWindow}
+                                {readyButton}
+                            </div>
+                            { bidWindow }
+                            { playerCardsWindow }
+                        </div >   
+                    )}
                     <div className="rightColumn">
                         {scoreBoardWindow}
                     </div>
