@@ -23,7 +23,7 @@ class ScoreBoardWindow extends React.Component {
                 </td>
             );
             playerNames.push(
-                <td key={i} className="playerNames">{this.props.players[i].name}</td>
+                <td key={i} className="playerNames">{this.props.playerNames[i].name}</td>
             );
         }
 

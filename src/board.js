@@ -16,6 +16,7 @@ export class SkullKingBoard extends React.Component {
         playerID: PropTypes.string,
         isActive: PropTypes.bool,
         isMultiplayer: PropTypes.bool,
+        gameMetadata: PropTypes.any.isRequired,
     }
 
     endHand() {
@@ -39,6 +40,7 @@ export class SkullKingBoard extends React.Component {
             <PlayedCardsWindow
                 cards={this.props.G.board}
                 players={this.props.G.players}
+                playerNames={this.props.gameMetadata}
                 phase={this.props.ctx.phase}
             />
         );
@@ -67,6 +69,7 @@ export class SkullKingBoard extends React.Component {
         let scoreBoardWindow = (
             <ScoreBoardWindow
                 players={this.props.G.players}
+                playerNames={this.props.gameMetadata}
                 bidding={this.props.G.bidding}
                 activePlayer={this.props.ctx.currentPlayer}
                 nextPlayer={this.props.G.startingRoundPlayer}
@@ -84,9 +87,14 @@ export class SkullKingBoard extends React.Component {
             if (this.props.G.players[winner].currentBid > 0) {
                 roundBonus = scoring.getRoundBonus(winner, this.props.G.board);
             }
-            winnerMessage = this.props.ctx.phase === 'endHand' ? this.props.G.players[winner].name + ' won this hand!' + (roundBonus > 0 ? ' And got ' + roundBonus + ' bonus points!' : '') : '';            
+            winnerMessage = this.props.ctx.phase === 'endHand' ? this.props.gameMetadata[winner].name + ' won this hand!' + (roundBonus > 0 ? ' And got ' + roundBonus + ' bonus points!' : '') : '';            
         }
         let readyButton = this.props.ctx.phase === 'endHand' && this.props.ctx.currentPlayer === this.props.playerID ? (<button onClick={() => this.endHand()}>End Hand</button>) : '';
+
+        let playerNames = [];
+        this.props.gameMetadata.filter((player, i) => {
+            playerNames.push(<span key={i}>{'player' + player.name}</span>);
+        });
         return (
             <div id="gameWindow">
                 <div className="header">
