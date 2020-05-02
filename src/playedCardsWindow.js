@@ -15,7 +15,7 @@ class PlayerCardsWindow extends React.Component {
                         <img src={"/img/cards/" + cardImage + '.png'} alt='card#' />
                     </div>
                     <div>
-                        {this.props.players[this.props.cards[i].player].name}
+                        {this.props.playerNames[this.props.cards[i].player].name}
                         <br/>
                         {cardImage === 'tigres' ? ( this.props.cards[i].card.value === 20 ? 'Played Pirate' : 'Played Escape' ) : ''}
                     </div>

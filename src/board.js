@@ -8,7 +8,7 @@ import * as skCards from "./cardDeck";
 import * as scoring from "./scoring";
 import PlayedCardsWindow from './playedCardsWindow';
 
-class SkullKingBoard extends React.Component {
+export class SkullKingBoard extends React.Component {
     static propTypes = {
         G: PropTypes.any.isRequired,
         ctx: PropTypes.any.isRequired,
@@ -16,10 +16,10 @@ class SkullKingBoard extends React.Component {
         playerID: PropTypes.string,
         isActive: PropTypes.bool,
         isMultiplayer: PropTypes.bool,
+        gameMetadata: PropTypes.any.isRequired,
     }
 
     endHand() {
-        console.log('end?', this.props.playerID);
         this.props.moves.confirmReady();
     }
 
@@ -35,11 +35,22 @@ class SkullKingBoard extends React.Component {
         this.props.moves.selectBidAmount(bid);
     }
 
+    getScores = () => {
+        let sortedWinners = this.props.G.players.sort((a, b) => {
+            return b.score - a.score;
+        });
+        let winners = sortedWinners.map((winner, i) => {
+            return (<li key={i}>{this.props.gameMetadata[winner.playerIndex].name} - {winner.score} </li>);
+        })
+        return (<ul>{winners}</ul>);
+    }
+
     render() {
         let playedCardsWindow = (
             <PlayedCardsWindow
                 cards={this.props.G.board}
                 players={this.props.G.players}
+                playerNames={this.props.gameMetadata}
                 phase={this.props.ctx.phase}
             />
         );
@@ -68,6 +79,7 @@ class SkullKingBoard extends React.Component {
         let scoreBoardWindow = (
             <ScoreBoardWindow
                 players={this.props.G.players}
+                playerNames={this.props.gameMetadata}
                 bidding={this.props.G.bidding}
                 activePlayer={this.props.ctx.currentPlayer}
                 nextPlayer={this.props.G.startingRoundPlayer}
@@ -85,28 +97,43 @@ class SkullKingBoard extends React.Component {
             if (this.props.G.players[winner].currentBid > 0) {
                 roundBonus = scoring.getRoundBonus(winner, this.props.G.board);
             }
-            winnerMessage = this.props.ctx.phase === 'endHand' ? this.props.G.players[winner].name + ' won this hand!' + (roundBonus > 0 ? ' And got ' + roundBonus + ' bonus points!' : '') : '';            
+            winnerMessage = this.props.ctx.phase === 'endHand' ? this.props.gameMetadata[winner].name + ' won this hand!' + (roundBonus > 0 ? ' And got ' + roundBonus + ' bonus points!' : '') : '';            
         }
         let readyButton = this.props.ctx.phase === 'endHand' && this.props.ctx.currentPlayer === this.props.playerID ? (<button onClick={() => this.endHand()}>End Hand</button>) : '';
+
+        let playerNames = [];
+        this.props.gameMetadata.filter((player, i) => {
+            return playerNames.push(<span key={i}>{'player' + player.name}</span>);
+        });
         return (
             <div id="gameWindow">
                 <div className="header">
-                    <h1>Skull King</h1>
+                    <h1>Skull King </h1>
                     <div className="header-info">
                         Round: {this.props.G.round}<br />
-                        Dealer: {this.props.G.players[this.props.G.dealer].longName}
+                        Dealer: {this.props.gameMetadata[this.props.G.dealer].name}
                     </div>
                 </div>
                 <div className="gameContent">
-                    <div className="leftColumn">
-                        <div id="board">
-                            <h1>{winnerMessage}</h1>
-                            {playedCardsWindow}
-                            {readyButton}
+                    {this.props.ctx.gameover ? 
+                    (
+                        <div className="leftColumn">
+                            <div className="winnerWindow">
+                                <h2>Game Over</h2>
+                                {this.getScores()}
+                            </div>
                         </div>
-                        {bidWindow}
-                        {playerCardsWindow}
-                    </div>    
+                    ) : (
+                        <div className="leftColumn">
+                            <div id="board">
+                                <h1>{ winnerMessage }</h1>
+                                {playedCardsWindow}
+                                {readyButton}
+                            </div>
+                            { bidWindow }
+                            { playerCardsWindow }
+                        </div >   
+                    )}
                     <div className="rightColumn">
                         {scoreBoardWindow}
                     </div>

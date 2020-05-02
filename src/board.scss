@@ -211,6 +211,20 @@ button {
     }
 }
 
+.winnerWindow {
+    width: auto;
+    margin: 20px auto;
+    font-size: 1.5em;
+
+    h2 {
+        font-size: 1.5em;
+    }
+
+    ul {
+        list-style-type: decimal;
+    }
+}
+
 .playerCardsWindow {
     display: flex;
     flex-direction: column;
@@ -335,6 +349,7 @@ button {
             white-space: nowrap;
             text-align: right;
             position: relative;
+            min-width: 40px;
 
             &.active {
                 background: lightgreen;
@@ -376,4 +391,8 @@ button {
 
 #player-window table.scoreTable td.active {
     background-color: lightgreen;
+}
+
+#player-window table.scoreTable td {
+    min-width: 250px;
 }

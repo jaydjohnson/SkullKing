@@ -4,4 +4,7 @@ const server = Server({
     games: [SkullKing],
 });
 
-server.run(8000);
+const lobbyConfig = {
+    apiPort: 8001,
+}
+server.run({ port: 8000, lobbyConfig });
