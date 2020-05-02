@@ -72,10 +72,13 @@ function PlayGame() {
 function LoadGame() {
     let { gameID } = useParams();
     let playerCredentials = JSON.parse(localStorage.getItem('playerCredentials'));
-    let playerID = playerCredentials[gameID].playerID;
-    let credentials = playerCredentials[gameID].playerCredentials;
-    console.log('playerid', playerID);
-    return <SkullKingClient playerID={playerID.toString()} gameID={gameID.toString()} credentials={credentials} debug1={false}/>;
+    if (gameID in playerCredentials) {
+        let playerID = playerCredentials[gameID].playerID;
+        let credentials = playerCredentials[gameID].playerCredentials;
+        // Check game exists
+        return <SkullKingClient playerID={playerID.toString()} gameID={gameID.toString()} credentials={credentials} debug={false}/>;
+    }
+    return (<h2>Sorry that game is not found</h2>);
 }
 
 export default App;

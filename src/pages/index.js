@@ -17,13 +17,15 @@ class IndexPage extends React.Component {
     constructor(props) {
         super(props);
 
+        let playerCredentials = localStorage.getItem('playerCredentials')
+        playerCredentials = playerCredentials === '' ? [] : JSON.parse(playerCredentials);
         this.state = {
             redirect: false,
             redirectURL: null,
             rooms: [],
             playerID: null,
             playerName: localStorage.getItem('playerName') || '',
-            playerCredentials: JSON.parse(localStorage.getItem('playerCredentials')) || [],
+            playerCredentials: playerCredentials,
             numberPlayers: null,
             tempName: localStorage.getItem('playerName') || '',
         }
