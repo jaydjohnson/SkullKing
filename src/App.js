@@ -7,8 +7,8 @@ import { SkullKing } from './game';
 import { SkullKingBoard } from './board';
 import IndexPage from './pages/index';
 
-const serverHost = 'http://192.168.1.4:8000';
-const lobbyHost = 'http://192.168.1.4:8001';
+const serverHost = 'http://ec2-35-173-122-84.compute-1.amazonaws.com:8000';
+const lobbyHost = 'http://ec2-35-173-122-84.compute-1.amazonaws.com:8001';
 
 const SkullKingClient = Client({
     game: SkullKing,
