@@ -123,7 +123,7 @@ export class SkullKingBoard extends React.Component {
                             <div className="winnerWindow">
                                 <h2>Game Over</h2>
                                 {this.getScores()}
-                                    <button><Link to="/">Back to Home</Link></button>
+                                    <Link to="/"><button>Back to Home</button></Link>
                             </div>
                         </div>
                     ) : (

@@ -134,7 +134,7 @@ class IndexPage extends React.Component {
                 return (<li key={k}>{player.name}</li>);
             });
             return (
-                <div key={i}>
+                <div className="room" key={i}>
                     {room.gameID}
                     {players}
                     {this.state.playerCredentials !== null && room.gameID in this.state.playerCredentials ? (<button onClick={() => this.leaveRoom(room)}>Leave</button>) : (<button onClick={() => this.joinRoom(room, room.players.length)}>Join</button>) }
@@ -149,18 +149,23 @@ class IndexPage extends React.Component {
                     <h1>Skull King</h1>
                 </div>
                 <div className="gameWindow-content">
-                    <input type="text" value={this.state.tempName} onChange={this.handleChangeName} />
+                    <p>Ahoy, matey! what be yer name? </p><input type="text" value={this.state.tempName} onChange={this.handleChangeName} />
                     <button onClick={this.confirmName}>Set Name</button> 
-                    {this.state.playerName ? (<p>Welcome {this.state.playerName}</p>) : ''}
-                    <Select
-                        className="playerSelect"
-                        value={numberPlayers}
-                        onChange={this.handleSelectNumberPlayers}
-                        options={options}
-                    />
-                    <button onClick={this.createRoom}>Create Room</button>
-                    <h2>Open Rooms</h2>
-                    {rooms}
+                    {this.state.playerName ? (<p>Welcome {this.state.playerName}!</p>) : ''}
+                    <div className="gameWindow-createLobby">
+                        <p>To create a room, Select the number of players and click Create Room.</p>
+                        <Select
+                            className="playerSelect"
+                            value={numberPlayers}
+                            onChange={this.handleSelectNumberPlayers}
+                            options={options}
+                        />
+                        {this.state.numberPlayers !== null ? (<button onClick={this.createRoom}>Create Room</button>) : ''}
+                    </div>
+                    <div className="gameWindow-rooms">
+                        <p>Join an Open Room</p>
+                        {rooms}
+                    </div>
                 </div>
             </div>
         )

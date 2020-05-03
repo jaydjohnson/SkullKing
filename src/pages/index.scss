@@ -6,18 +6,43 @@
 
     background: url('/img/background2.jpg');
     background-size: cover;
+    background-position: right;
 }
 
-.gameWindow-content {
-    margin: 20px;
+.gameWindow {
+    &-content {
+        margin: 20px;
 
-    input {
-        width: 200px;
-        height: 43px;
-        font-size: 1.5em;
+        p {
+            font-size: 1.5em;
+            margin: 0;
+        }
+
+        input {
+            width: 200px;
+            height: 20px;
+            font-size: 1em;
+            padding: 5px;
+        }
+
+        button {
+            font-size: 1em;
+            margin: 10px;
+            padding: 5px 20px;
+        }
     }
 
-    .playerSelect {
-        width: 200px;
+    &-createLobby {
+        margin: 30px 0;
+        font-size: .75em;
+
+        p {
+            margin: 0;
+        }
+
+        .playerSelect {
+            width: 200px;
+            display: inline-block;
+        }
     }
 }
