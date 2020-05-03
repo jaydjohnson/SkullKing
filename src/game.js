@@ -51,8 +51,6 @@ export const SkullKing = {
             start: true,
 
             onBegin: (G, ctx) => {
-                console.log('Starting Game');
-
                 for (let i = 0; i < ctx.numPlayers; i++) {
                     let name = 'Jay-' + (i + 1);
                     G.players[i] = {
@@ -77,8 +75,6 @@ export const SkullKing = {
 
         deal: {
             onEnd: (G, ctx) => {
-                console.log('dealing cards');
-
                 ResetHands(G, ctx);
                 let deck = skCards.ShuffledSkullKingDeck();
                 G.board = [];
@@ -103,10 +99,6 @@ export const SkullKing = {
         },
 
         bid: {
-            onBegin: (G, ctx) => {
-                console.log('bidding');
-            },
-
             endIf: (G, ctx) => {
                 let stillBidding = G.players.filter(function (p) {
                     return p.currentBid === null;
@@ -133,7 +125,6 @@ export const SkullKing = {
 
         play: {
             onBegin: (G, ctx) => {
-                console.log('Enter: play');
                 G.roundHand++;
                 G.board = [];
                 G.bidding = false;
@@ -142,7 +133,6 @@ export const SkullKing = {
 
             endIf: (G, ctx) => {
                 if ( G.roundHand > G.round) {
-                    console.log('Ending RoundIf');
                     return { next: 'deal' }
                 }
             },
@@ -166,7 +156,6 @@ export const SkullKing = {
 
         endHand: {
             onBegin: (G, ctx) => {
-                console.log('endHand');
                 let winnerIndex = skCards.getWinner(G.board);
                 let winner = G.board[winnerIndex].player;
                 G.startingRoundPlayer = winner;
@@ -175,13 +164,8 @@ export const SkullKing = {
                 if ( G.players[winner].currentBid > 0) {
                     G.players[winner].roundBonus += scores.getRoundBonus(winner, G.board);
                 }
-                G.board.map((card) => console.log(card.card.value, card.card.color));
-                G.players.map((player) => console.log(player.name, player.roundBonus));
-                console.log('player ', G.players[winner].name, ' won');
                 if ( G.roundHand === G.round) {
-                    console.log('Ending Round: onEnd');
                     // Score 
-                    console.log( scores.getRoundScoresOnly(G.players, G.round) );
                     G.players = scores.getRoundScores(G.players, G.round);
                     G.scores.push(G.players);
                 }

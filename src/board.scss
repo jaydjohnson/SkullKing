@@ -291,10 +291,18 @@ button {
         background: lightgrey;
         text-align: center;
         border-radius: 20px;
-        border: 2px solid grey;
+        border: 2px solid darkgoldenrod;
         -moz-box-shadow: .2em .2em .5em #333;
         -webkit-box-shadow: .2em .2em .5em #333;
         box-shadow: .2em .2em .5em #333;
+        background: url('/img/background2.jpg');
+        background-position: top;
+
+        p {
+            margin: .2em;
+            text-shadow: 0 0 4px gold;
+            font-weight: bold;
+        }
     }
 
     &-list {

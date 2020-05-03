@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import './board.scss';
 import BidWindow from './bidWindow.js';
@@ -60,7 +61,8 @@ export class SkullKingBoard extends React.Component {
             bidWindow = (
             <BidWindow
                 round={this.props.G.round}
-                player={this.props.playerID} 
+                player={this.props.playerID}
+                    startingPlayer={this.props.G.startingRoundPlayer === parseInt(this.props.playerID) ? 'You' : this.props.gameMetadata[this.props.G.startingRoundPlayer].name}
                 onClick={this.handleBidClick}
             />);
         }
@@ -121,6 +123,7 @@ export class SkullKingBoard extends React.Component {
                             <div className="winnerWindow">
                                 <h2>Game Over</h2>
                                 {this.getScores()}
+                                    <button><Link to="/">Back to Home</Link></button>
                             </div>
                         </div>
                     ) : (

@@ -33,7 +33,7 @@ class IndexPage extends React.Component {
 
     componentDidMount() {
         this.refreshRooms();
-        this.interval = setInterval(()=> this.refreshRooms(), 5000);
+        this.interval = setInterval(()=> this.refreshRooms(), 1000);
     }
 
     componentWillUnmount() {
@@ -45,13 +45,6 @@ class IndexPage extends React.Component {
             this.setState({playerCredentials: [] });
             localStorage.setItem('playerCredentials', this.state.playerCredentials);
         }
-        // console.log(Object.keys(this.state.playerCredentials));
-        // let syncRooms = this.state.playerCredentials.map((pc, i) => {
-        //     console.log(i, pc);
-        //     return i in this.state.rooms;
-        // });
-        // console.log(syncRooms);
-        // console.log("SFImxoDfn" in this.state.playerCredentials);
     }
 
     refreshRooms = () => {
@@ -144,7 +137,7 @@ class IndexPage extends React.Component {
                 <div key={i}>
                     {room.gameID}
                     {players}
-                    {room.gameID in this.state.playerCredentials ? (<button onClick={() => this.leaveRoom(room)}>Leave</button>) : (<button onClick={() => this.joinRoom(room, room.players.length)}>Join</button>) }
+                    {this.state.playerCredentials !== null && room.gameID in this.state.playerCredentials ? (<button onClick={() => this.leaveRoom(room)}>Leave</button>) : (<button onClick={() => this.joinRoom(room, room.players.length)}>Join</button>) }
                     {isEmpty === -1 ? (<button onClick={() => this.setRedirect(room)}>Play</button>) : ''}
                 </div>
             );
