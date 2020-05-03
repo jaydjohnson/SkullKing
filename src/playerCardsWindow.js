@@ -12,6 +12,14 @@ class PlayerCardsWindow extends React.Component {
         }
     }
 
+    componentDidMount() {
+        skCards.SkullKingDeck().forEach((card) => {
+            let img = new Image();
+            let cardImage = skCards.getCardImage(card);
+            img.src = '/img/cards/' + cardImage +'.png';
+        });
+    }
+
     canPlayCard = (card) => {
         return skCards.isCardAllowed(this.props.cards[card], this.props.cards, this.props.playedCards);
     }

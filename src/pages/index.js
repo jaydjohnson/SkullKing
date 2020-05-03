@@ -33,7 +33,7 @@ class IndexPage extends React.Component {
 
     componentDidMount() {
         this.refreshRooms();
-        this.interval = setInterval(()=> this.refreshRooms(), 5000);
+        this.interval = setInterval(()=> this.refreshRooms(), 1000);
     }
 
     componentWillUnmount() {
@@ -45,13 +45,6 @@ class IndexPage extends React.Component {
             this.setState({playerCredentials: [] });
             localStorage.setItem('playerCredentials', this.state.playerCredentials);
         }
-        // console.log(Object.keys(this.state.playerCredentials));
-        // let syncRooms = this.state.playerCredentials.map((pc, i) => {
-        //     console.log(i, pc);
-        //     return i in this.state.rooms;
-        // });
-        // console.log(syncRooms);
-        // console.log("SFImxoDfn" in this.state.playerCredentials);
     }
 
     refreshRooms = () => {
@@ -141,10 +134,10 @@ class IndexPage extends React.Component {
                 return (<li key={k}>{player.name}</li>);
             });
             return (
-                <div key={i}>
+                <div className="room" key={i}>
                     {room.gameID}
                     {players}
-                    {room.gameID in this.state.playerCredentials ? (<button onClick={() => this.leaveRoom(room)}>Leave</button>) : (<button onClick={() => this.joinRoom(room, room.players.length)}>Join</button>) }
+                    {this.state.playerCredentials !== null && room.gameID in this.state.playerCredentials ? (<button onClick={() => this.leaveRoom(room)}>Leave</button>) : (<button onClick={() => this.joinRoom(room, room.players.length)}>Join</button>) }
                     {isEmpty === -1 ? (<button onClick={() => this.setRedirect(room)}>Play</button>) : ''}
                 </div>
             );
@@ -156,18 +149,23 @@ class IndexPage extends React.Component {
                     <h1>Skull King</h1>
                 </div>
                 <div className="gameWindow-content">
-                    <input type="text" value={this.state.tempName} onChange={this.handleChangeName} />
+                    <p>Ahoy, matey! what be yer name? </p><input type="text" value={this.state.tempName} onChange={this.handleChangeName} />
                     <button onClick={this.confirmName}>Set Name</button> 
-                    {this.state.playerName ? (<p>Welcome {this.state.playerName}</p>) : ''}
-                    <Select
-                        className="playerSelect"
-                        value={numberPlayers}
-                        onChange={this.handleSelectNumberPlayers}
-                        options={options}
-                    />
-                    <button onClick={this.createRoom}>Create Room</button>
-                    <h2>Open Rooms</h2>
-                    {rooms}
+                    {this.state.playerName ? (<p>Welcome {this.state.playerName}!</p>) : ''}
+                    <div className="gameWindow-createLobby">
+                        <p>To create a room, Select the number of players and click Create Room.</p>
+                        <Select
+                            className="playerSelect"
+                            value={numberPlayers}
+                            onChange={this.handleSelectNumberPlayers}
+                            options={options}
+                        />
+                        {this.state.numberPlayers !== null ? (<button onClick={this.createRoom}>Create Room</button>) : ''}
+                    </div>
+                    <div className="gameWindow-rooms">
+                        <p>Join an Open Room</p>
+                        {rooms}
+                    </div>
                 </div>
             </div>
         )

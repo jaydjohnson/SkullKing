@@ -46,7 +46,8 @@ class BidWindow extends React.Component {
         return (
             <div className="bidWindow">
                 <div className="bidWindow-content">
-                    {this.state.confirmedBid ? '' : (<h3>Select your bid</h3>)}
+                    {this.state.confirmedBid ? '' : (<h2>Select your bid</h2>)}
+                    {this.state.confirmedBid ? '' : (<p>Round will start with {this.props.startingPlayer}</p>)}
                     <div className="bidWindow-list">
                         {bidNumbers}
                     </div>

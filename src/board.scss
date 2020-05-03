@@ -189,8 +189,8 @@ button {
     cursor: pointer;
     font-family: 'MyWebFont', serif;
     margin: 20px 10px 10px;
-    font-size: 1em;
-    padding: 10px 20px;
+    padding: 10px 30px;
+    font-size: 1.5rem;
     color: white;
     background: rgb(0,123,255);
     background: linear-gradient(0deg, rgba(0,17,128,1) 0%, rgba(0,123,255,1) 100%);
@@ -292,10 +292,18 @@ button {
         background: lightgrey;
         text-align: center;
         border-radius: 20px;
-        border: 2px solid grey;
+        border: 2px solid darkgoldenrod;
         -moz-box-shadow: .2em .2em .5em #333;
         -webkit-box-shadow: .2em .2em .5em #333;
         box-shadow: .2em .2em .5em #333;
+        background: url('/img/background2.jpg');
+        background-position: top;
+
+        p {
+            margin: .2em;
+            text-shadow: 0 0 4px gold;
+            font-weight: bold;
+        }
     }
 
     &-list {
