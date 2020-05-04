@@ -1,6 +1,5 @@
 import React from 'react';
 import Axios from 'axios';
-import Select from 'react-select';
 import { Redirect } from 'react-router-dom'
 import './index.scss';
 
@@ -128,10 +127,11 @@ class RoomPage extends React.Component {
 
     NameWindow = () => {
         return (
-            <div className="roomPage-nameWindow">
+            <div className="roomWindow-name">
                 <h2>What be yar name?</h2>
+                <p>An' keep yer name short... The Skull King 'as isssues with long names!</p>
                 <input type="text" value={this.state.nameTextField} onChange={this.handleChangeName}></input>
-                <button onClick={this.confirmName}>Avast!</button>
+                <button onClick={this.confirmName}>Yo ho ho!</button>
             </div>
         )
     }
@@ -170,16 +170,18 @@ class RoomPage extends React.Component {
                             <p className="pageLink">{pageLink}</p>
                             <button onClick={() => { navigator.clipboard.writeText(pageLink) }}>Copy Link</button>
                         </div>
-                        {this.state.needName === true ? (this.NameWindow()) : ''}
-                        <div className="roomWindow-players">
-                            <h2>Players</h2>
-                            <p>When yar ship be full, we shall set sail!</p>
-                            {/* <button onClick={this.editName}>Edit Name</button> */}
-                            <ul>
-                                {playerList}
-                            </ul>
-                            <button onClick={this.leaveRoom}>Abandon ship</button>
-                        </div>                        
+                        {this.state.needName === true ? (this.NameWindow()) : (
+                            <div className="roomWindow-players">
+                                <h2>Crew Members</h2>
+                                <p>When yer ship be full, we shall set sail!</p>
+                                {/* <button onClick={this.editName}>Edit Name</button> */}
+                                <ul>
+                                    {playerList}
+                                </ul>
+                                <p>If this not be the 'ight crew fer ya</p>
+                                <button onClick={this.leaveRoom}>Abandon ship</button>
+                            </div>   
+                        )}                    
                     </div>
                 )}
             </div>

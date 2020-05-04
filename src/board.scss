@@ -191,10 +191,10 @@ button {
     margin: 20px 10px 10px;
     padding: 10px 30px;
     font-size: 1.5rem;
-    color: white;
+    color: black;
     background: rgb(0,123,255);
-    background: linear-gradient(0deg, rgba(0,17,128,1) 0%, rgba(0,123,255,1) 100%);
-    border: 1px solid #007bff;
+    background: linear-gradient(0deg, goldenrod 0%, gold 100%);
+    border: 1px solid gold;
     border-radius: 40px;
     align-self: center;
     width: auto;
@@ -203,7 +203,7 @@ button {
     box-shadow: .2em .2em .5em #333;
 
     &:hover {
-        color: gold;
+        color: rgb(128, 104, 0);
     }
 
     &:active {

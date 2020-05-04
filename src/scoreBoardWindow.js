@@ -67,7 +67,7 @@ class ScoreBoardWindow extends React.Component {
                     </thead>
                     <tbody>
                         {scoreList}
-                        <tr><td>Current</td>{bidList}</tr>
+                        <tr><td>Bids</td>{bidList}</tr>
                     </tbody>
                 </table>
             </div>

@@ -1,15 +1,14 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route, Link, useRouteMatch, useParams } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, useRouteMatch, useParams } from 'react-router-dom';
 import { Client } from 'boardgame.io/react';
-// import { Local } from 'boardgame.io/multiplayer';
 import { SocketIO } from 'boardgame.io/multiplayer';
 import { SkullKing } from './game';
 import { SkullKingBoard } from './board';
 import IndexPage from './routes/index';
 import RoomPage from './routes/room';
 
-const serverHost = 'http://ec2-35-173-122-84.compute-1.amazonaws.com:8000';
-const lobbyHost = 'http://ec2-35-173-122-84.compute-1.amazonaws.com:8001';
+const serverHost = 'http://skullking.notssdd.com:8000';
+const lobbyHost = 'http://skullking.notssdd.com:8001';
 
 const SkullKingClient = Client({
     game: SkullKing,
@@ -20,30 +19,12 @@ const SkullKingClient = Client({
 const App = () => (
     <Router>
         <div>
-
-            {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
             <Switch>
                 <Route path="/game">
                     <PlayGame />
                 </Route>
                 <Route path="/room">
                     <JoinRoom />
-                </Route>
-                <Route path="/create">
-                    <nav>
-                        <ul>
-                            <li>
-                                <Link to="/">Home</Link>
-                            </li>
-                            <li>
-                                <Link to="/game">Game</Link>
-                            </li>
-                            <li>
-                                <Link to="/create">create</Link>
-                            </li>
-                        </ul>
-                    </nav>
                 </Route>
                 <Route path="/">
                     <IndexPage serverHost={serverHost} lobbyHost={lobbyHost} />
