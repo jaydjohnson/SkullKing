@@ -5,7 +5,8 @@ import { Client } from 'boardgame.io/react';
 import { SocketIO } from 'boardgame.io/multiplayer';
 import { SkullKing } from './game';
 import { SkullKingBoard } from './board';
-import IndexPage from './pages/index';
+import IndexPage from './routes/index';
+import RoomPage from './routes/room';
 
 const serverHost = 'http://ec2-35-173-122-84.compute-1.amazonaws.com:8000';
 const lobbyHost = 'http://ec2-35-173-122-84.compute-1.amazonaws.com:8001';
@@ -25,9 +26,9 @@ const App = () => (
             <Switch>
                 <Route path="/game">
                     <PlayGame />
-                    <div>
-                        {/* <SkullKingClient playerID="0" gameID="" /> */}
-                    </div>
+                </Route>
+                <Route path="/room">
+                    <JoinRoom />
                 </Route>
                 <Route path="/create">
                     <nav>
@@ -52,6 +53,28 @@ const App = () => (
     </Router>
 );
 
+function JoinRoom() {
+    let match = useRouteMatch();
+    
+    return (
+        <div>
+            <Switch>
+                <Route path={`${match.path}/:roomID`}>
+                    <LoadRoom />
+                </Route>
+                <Route path={match.path}>
+                    <h3>You need a valid Room ID.</h3>
+                </Route>
+            </Switch>
+        </div>
+    )
+}
+
+function LoadRoom() {
+    let { roomID } = useParams();
+    return (<RoomPage gameID={roomID} serverHost={serverHost} lobbyHost={lobbyHost} />);
+}
+
 function PlayGame() {
     let match = useRouteMatch();
 
@@ -62,7 +85,7 @@ function PlayGame() {
                     <LoadGame />
                 </Route>
                 <Route path={match.path}>
-                    <h3>Please select a topic.</h3>
+                    <h3>You need a valid Game ID.</h3>
                 </Route>
             </Switch>
         </div>

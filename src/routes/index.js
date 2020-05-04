@@ -110,17 +110,17 @@ class IndexPage extends React.Component {
         Axios.post(this.props.lobbyHost + '/games/SkullKing/create', {
             numPlayers: this.state.numberPlayers.value,
         }).then((response) => {
-            this.refreshRooms();
+            this.setState({redirect: true, redirectURL: '/room/' + response.data.gameID});
         });
     }
 
     setRedirect = (room) => {
-        this.setState({redirect: true, redirectURL: room.gameID});
+        this.setState({redirect: true, redirectURL: '/game/' + room.gameID});
     }
 
     renderRedirect = () => {
         if (this.state.redirect) {
-            return <Redirect to={'/game/' + this.state.redirectURL} />
+            return <Redirect to={this.state.redirectURL} />
         }
     }
 
