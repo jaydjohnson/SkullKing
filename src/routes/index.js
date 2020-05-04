@@ -128,20 +128,6 @@ class IndexPage extends React.Component {
 
         const { numberPlayers } = this.state;
 
-        let rooms = this.state.rooms.map( (room, i) => {
-            let isEmpty = room.players.findIndex((player) => { return player.name === undefined});
-            let players = room.players.map( (player, k) => {
-                return (<li key={k}>{player.name}</li>);
-            });
-            return (
-                <div className="room" key={i}>
-                    {room.gameID}
-                    {players}
-                    {this.state.playerCredentials !== null && room.gameID in this.state.playerCredentials ? (<button onClick={() => this.leaveRoom(room)}>Leave</button>) : (<button onClick={() => this.joinRoom(room, room.players.length)}>Join</button>) }
-                    {isEmpty === -1 ? (<button onClick={() => this.setRedirect(room)}>Play</button>) : ''}
-                </div>
-            );
-        });
         return (
             <div id="gameWindow">
                 {this.renderRedirect()}
@@ -149,9 +135,7 @@ class IndexPage extends React.Component {
                     <h1>Skull King</h1>
                 </div>
                 <div className="gameWindow-content">
-                    <p>Ahoy, matey! what be yer name? </p><input type="text" value={this.state.tempName} onChange={this.handleChangeName} />
-                    <button onClick={this.confirmName}>Set Name</button> 
-                    {this.state.playerName ? (<p>Welcome {this.state.playerName}!</p>) : ''}
+                    <p>Ahoy, matey! Welcome to Skull King!</p>
                     <div className="gameWindow-createLobby">
                         <p>To create a room, Select the number of players and click Create Room.</p>
                         <Select
@@ -161,10 +145,6 @@ class IndexPage extends React.Component {
                             options={options}
                         />
                         {this.state.numberPlayers !== null ? (<button onClick={this.createRoom}>Create Room</button>) : ''}
-                    </div>
-                    <div className="gameWindow-rooms">
-                        <p>Join an Open Room</p>
-                        {rooms}
                     </div>
                 </div>
             </div>
