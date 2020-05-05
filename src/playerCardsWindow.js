@@ -16,7 +16,7 @@ class PlayerCardsWindow extends React.Component {
         skCards.SkullKingDeck().forEach((card) => {
             let img = new Image();
             let cardImage = skCards.getCardImage(card);
-            img.src = '/img/cards/' + cardImage +'.png';
+            img.src = process.env.REACT_APP_IMAGE_HOST + '/cards/' + cardImage +'.png';
         });
     }
 
@@ -69,7 +69,7 @@ class PlayerCardsWindow extends React.Component {
                     className={'card ' + (cardAllowed && activeTurn ? 'cardAllowed' : '')}
                     onClick={() => this.selectCard(i)}
                 >
-                    <img src={"/img/cards/" + cardImage + '.png'} alt='card#'/>
+                    <img src={process.env.REACT_APP_IMAGE_HOST + '/cards/' + cardImage + '.png'} alt='card#'/>
                 </div>
             );
         }

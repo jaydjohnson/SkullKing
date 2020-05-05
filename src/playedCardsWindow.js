@@ -12,7 +12,7 @@ class PlayerCardsWindow extends React.Component {
                     <div
                         className='card'
                     >
-                        <img src={"/img/cards/" + cardImage + '.png'} alt='card#' />
+                        <img src={process.env.REACT_APP_IMAGE_HOST + '/cards/' + cardImage + '.png'} alt='card#' />
                     </div>
                     <div>
                         {this.props.playerNames[this.props.cards[i].player].name}
