@@ -1,1 +1,1 @@
-web: node -r esm src/server.js
+web: serve -s build
