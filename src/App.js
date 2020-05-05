@@ -7,8 +7,8 @@ import { SkullKingBoard } from './board';
 import IndexPage from './routes/index';
 import RoomPage from './routes/room';
 
-const serverHost = 'http://skullking.notssdd.com:8000';
-const lobbyHost = 'http://skullking.notssdd.com:8001';
+const serverHost = `https://${window.location.hostname}:8000`;
+const lobbyHost = `https://${window.location.hostname}:8001`;
 
 const SkullKingClient = Client({
     game: SkullKing,
