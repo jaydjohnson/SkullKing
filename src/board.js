@@ -8,6 +8,7 @@ import PlayerCardsWindow from './playerCardsWindow';
 import * as skCards from "./cardDeck";
 import * as scoring from "./scoring";
 import PlayedCardsWindow from './playedCardsWindow';
+import HelpCard from './helperCard';
 
 export class SkullKingBoard extends React.Component {
     static propTypes = {
@@ -139,7 +140,10 @@ export class SkullKingBoard extends React.Component {
                     )}
                     <div className="rightColumn">
                         {scoreBoardWindow}
-                        <Link to="/" className="leaveGame"><button title="Leave Game" onClick={this.handleLeaveGameClick}>Abandom Ship</button></Link>
+                        <div className="gameActions">
+                            <HelpCard />
+                            <Link to="/"><button title="Leave Game" onClick={this.handleLeaveGameClick}>Abandom Ship</button></Link>
+                        </div>
                     </div>
                 </div>
             </div>
