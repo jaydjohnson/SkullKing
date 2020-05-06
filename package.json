@@ -9,8 +9,6 @@
     "axios": "^0.19.2",
     "boardgame.io": "^0.39.9",
     "esm": "^3.2.25",
-    "koa-mount": "^4.0.0",
-    "koa-static": "^5.0.0",
     "node-sass": "^4.14.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
@@ -21,7 +19,7 @@
     "fsevents": "^1.2.11"
   },
   "scripts": {
-    "start": "node -r esm src/server.js",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
