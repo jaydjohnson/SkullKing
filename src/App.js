@@ -7,8 +7,8 @@ import { SkullKingBoard } from './board';
 import IndexPage from './routes/index';
 import RoomPage from './routes/room';
 
-const serverHost = 'http://skullking.notssdd.com:8000';
-const lobbyHost = 'http://skullking.notssdd.com:8001';
+const serverHost = process.env.REACT_APP_GAME_SERVER_HOST;
+const lobbyHost = process.env.REACT_APP_LOBBY_SERVER_HOST;
 
 const SkullKingClient = Client({
     game: SkullKing,

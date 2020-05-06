@@ -139,6 +139,7 @@ export class SkullKingBoard extends React.Component {
                     )}
                     <div className="rightColumn">
                         {scoreBoardWindow}
+                        <Link to="/" className="leaveGame"><button title="Leave Game" onClick={this.handleLeaveGameClick}>Abandom Ship</button></Link>
                     </div>
                 </div>
             </div>

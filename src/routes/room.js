@@ -148,7 +148,6 @@ class RoomPage extends React.Component {
         }
 
         if (emptySeats.length === 0) {
-            //console.log('empty');
             this.setRedirect('/game/' + this.props.gameID);
         }
 
