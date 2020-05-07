@@ -167,7 +167,7 @@ class RoomPage extends React.Component {
                         <div className="roomWindow-info">
                             <p>Ye need more gentlemen o' fortune. Share this here link to get yer crew plunderin'.</p>
                             <p className="pageLink">{pageLink}</p>
-                            <button onClick={() => { navigator.clipboard.writeText(pageLink) }}>Copy Link</button>
+                            {/* <button onClick={() => { navigator.clipboard.writeText(pageLink) }}>Copy Link</button> */}
                         </div>
                         {this.state.needName === true ? (this.NameWindow()) : (
                             <div className="roomWindow-players">
