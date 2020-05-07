@@ -52,7 +52,7 @@ class TigresWindow extends React.Component {
         return (
             <div className="tigresWindow">
                 <h3>Are ye Pirate or a yellow-bellied cur?</h3>
-                <p>The Tigres can be played as either a Pirate or on Escape card.</p>
+                <p>The Tigres can be played as either a Pirate or an Escape card.</p>
                 <div className="tigresWindow-options">
                     {options}
                 </div>

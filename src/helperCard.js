@@ -1,6 +1,4 @@
 import React from 'react';
-import * as skCards from "./cardDeck";
-import TigresWindow from './tigresWindow';
 
 class HelperCard extends React.Component {
     constructor(props) {
